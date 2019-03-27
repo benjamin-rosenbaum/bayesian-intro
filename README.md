@@ -44,7 +44,7 @@ benjamin.rosenbaum@idiv.de
 
 [2 - Practical: Random intercepts regression](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_2_practical_random_intercepts_regression.html)
 
-[3 - Exercise: Random intercepts and slopes](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_3_practical_posterior.html)
+[3 - Exercise: Random intercepts and slopes](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_3_exercise_random_intercepts_and_slopes.html)
 
 [4 - Lecture: Conclusions](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_4_Conclusions.html)
 
