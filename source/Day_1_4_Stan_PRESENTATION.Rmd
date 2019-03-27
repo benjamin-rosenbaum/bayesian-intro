@@ -1,0 +1,155 @@
+---
+title: "1.4: Stan - A probabilistic programming language"
+author: "Benjamin Rosenbaum"
+date: "April 1, 2019"
+output:  ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## MCMC Samplers 
+
+> - BUGS (WinBUGS, OpenBUGS)
+
+> - JAGS [mcmc-jags.sourceforge.net](http://mcmc-jags.sourceforge.net/)
+
+> - Stan [mc-stan.org](https://mc-stan.org/)
+
+> - greta [greta-stats.org](https://greta-stats.org/)
+
+## MCMC Samplers 
+
+> - Stan, JAGS can be called from R (via packages)
+> - model description: priors, likelihood
+> - no explicit code for likelihood required
+> - just tell the program how the residuals are distributed
+> - takes care of MCMC sampling
+
+## Linear regression model
+
+$y_i \sim \text{normal}(\mu_i,\sigma)\quad i=1,...,n$
+
+$\mu_i = a+b\cdot x_i$
+
+- data: $x_i, y_i,\quad i=1,...,n$
+- parameters: $a,b,\sigma$
+- deterministic part: $\mu_i = a+b\cdot x_i$
+- stochastic part: $y_i \sim \text{normal}(\mu_i,\sigma)$  
+
+## Stan code
+
+```{r stan_code, echo=TRUE}
+stan_code = '
+data {
+  int n;
+  vector[n] x;
+  vector[n] y;
+}
+parameters {
+  real a;  // intercept
+  real b;  // slope
+  real<lower=0> sigma;  // standard deviation
+}
+model {
+  // priors
+  a ~ normal(0, 10);
+  b ~ normal(0, 10);
+  sigma ~ normal(0, 10);
+  // likelihood
+  y ~ normal(a+b*x, sigma);
+}
+'
+```
+
+## Data block {.build}
+
+```{r, echo=TRUE, eval=FALSE}
+data {
+  int n;
+  vector[n] x;
+  vector[n] y;
+}
+```
+
+- each variable must be specified!  
+- datatypes:    
+  `int x;` integer (single value)      
+  `real x;` continuous (single value)        
+  `vector[n] x;` vector of length n       
+  (see Stan documentation for more: matrices, arrays, ...)    
+- each command ends with a semicolon `;`
+
+
+## Parameters block {.build}
+
+```{r, echo=TRUE, eval=FALSE}
+parameters {
+  real a;  // intercept
+  real b;  // slope
+  real<lower=0> sigma;  // standard deviation
+}
+```
+
+- `//` used for comments: not read as code
+- specify boundaries by `<lower=...>` or `<upper=...>`
+
+## Model block {.smaller .build}
+
+```{r, echo=TRUE, eval=FALSE}
+model {
+  // priors
+  a ~ normal(0, 10);
+  b ~ normal(0, 10);
+  sigma ~ normal(0, 10);
+  // likelihood
+  y ~ normal(a+b*x, sigma);
+}
+```
+
+- specify priors: `~` distribution
+- specify likelihood:  
+    deterministic part `a+b*x`     
+    stochastic part `y ~ normal(..., sigma)`
+- alternatively:
+
+```{r, echo=TRUE, eval=FALSE}
+  for(i in 1:n){
+    y[i] ~ normal(a+b*x[i], sigma);
+  }
+```
+
+## Optional blocks
+
+```{r, echo=TRUE, eval=FALSE}
+functions {
+}
+
+transformed data {
+}
+
+transformed parameters {
+}
+
+generated quantities { 
+}
+```
+
+## Calling the MCMC sampler from R {.build}
+
+put data in a named list
+```{r, echo=TRUE, eval=FALSE}
+data = list(n=n, x=x, y=y)
+```
+
+compile the model (translates text into fast C++ code)
+```{r, echo=TRUE, eval=FALSE}
+stan_model = stan_model(model_code=stan_code)
+```
+
+start the MCMC sampler
+```{r, echo=TRUE, eval=FALSE}
+fit = sampling(stan_model, data=data) # + additional input
+```

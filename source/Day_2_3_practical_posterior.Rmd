@@ -1,0 +1,450 @@
+---
+title: "2.3 Practical: posterior"
+author: "Benjamin Rosenbaum"
+date: "April 2, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this session, we will learn how to fit a model and to interpret the output. 
+
+Specifically, we learn how to deal with the posterior distribution to make inference and predictions.
+
+Again, we will use linear regression.
+
+# Setup 
+
+```{r}
+rm(list=ls())
+library(rstan)
+library(coda)
+library(BayesianTools)
+setwd("~/Desktop/teaching Bayes")
+
+rstan_options(auto_write = TRUE)
+options(mc.cores = 3) # number of CPU cores
+```
+
+# Generate data
+
+```{r}
+set.seed(123) # initiate random number generator for reproducability
+
+n=50
+
+a=1.0
+b=0.5
+c=0.4
+sigma=0.15
+
+x = runif(n=n, min=0, max=1)
+y = rnorm(n=n, mean=a+b*x+c*x^2, sd=sigma)
+
+df = data.frame(x=x,
+                y=y)
+
+plot(df)
+```
+
+# Statistical model
+
+Statistical model for linear regression
+$$
+\begin{aligned}
+y_i & \sim \text{normal}(\mu_i, \sigma) \\ 
+\mu_i &= a+b\cdot x_i
+\end{aligned}
+$$
+```{r}
+stan_code = '
+data {
+  int n;
+  vector[n] x;
+  vector[n] y;
+}
+parameters {
+  real a;  
+  real b;  
+  real<lower=0> sigma; 
+}
+model {
+  // priors
+  a ~ normal(0, 10);
+  b ~ normal(0, 10);
+  sigma ~ normal(0, 10);
+  // likelihood
+  y ~ normal(a+b*x, sigma);
+}
+'
+```
+
+# Data and sampler preparation, MCMC sampling
+
+```{r}
+data = list(n=n, 
+            x=df$x, 
+            y=df$y)
+
+
+stan_model = stan_model(model_code=stan_code)
+# save(file="stan_model_test.RData", list="stan_model")
+# load("stan_model_test.RData")
+
+fit  = sampling(stan_model,
+                data=data,
+                chains=3,
+                iter=2000,
+                warmup=1000
+)
+```
+
+# Explore the posterior distribution
+
+First, we look at the output and check `n_eff` and `Rhat`.
+
+`Rhat<1.01` for all parameters, that's good. `n_eff` looks good, too (compare to `n_total`).
+
+```{r}
+print(fit, digits=3, probs=c(0.025, 0.975))
+```
+
+Plot the standard Stan output. 
+
+```{r}
+plot(fit)
+```
+
+Plotting from coda package (covert fit object to `mcmc.list` object) also shows traceplots of the 3 chains.
+
+They look like a **"fat hairy caterpillar"**, so we assume the chains are a good representation of the true posterior distribution.
+
+```{r, fig.height=8}
+plot(As.mcmc.list(fit)) # from coda package
+```
+
+What is the posterior exactly? 
+
+Convert fit object into a **matrix**. Now the 3 chains are concatenated to 1.
+
+It has `n_total=3000` rows and 1 column per parameter (3 parameters + "lp__", we ignore the last one)
+
+```{r}
+posterior=as.matrix(fit)
+str(posterior)
+head(posterior)
+```
+
+Each **column** contains all posterior samples of 1 parameter.
+
+We can look at this (marginal) posterior distribution. This is the same as the plotting commands above.
+
+We can index the columns by number or by name.
+
+```{r}
+str(posterior[, 1])
+head(posterior[, 1])
+hist(posterior[, 1])
+hist(posterior[, "a"])
+```
+
+Each **row** contains one sample of the multidimensional posterior.
+
+**Important:** each draw / sample consists of a multidimensional vector for `a`,`b`,`sigma`.
+
+If you change the order of one column (permutation), the whole thing is not a representation of the posterior anymore!
+
+Each element of the matrix is linked to the other elements in that row!
+
+```{r}
+str(posterior[1, ])
+posterior[1, ]
+```
+
+The reason is that the parameters can be correlated. 
+
+Typically, there is some correlation between intercept and slope in linear regression (especially if the data is not centered).
+
+`correlationPlot()` shows pairwise plots and correlation coefficients.
+
+Some correlation is generally not a problem in Bayesian statistics! 
+
+Perfect correlation (samples perfectly distributed along a line or a curve), however, would indicate some problem with the model (unidentifiability).
+
+```{r}
+pairs(fit, pars=c("a","b","sigma"))
+correlationPlot(posterior[, 1:3], thin=1) # from BayesianTools package
+```
+
+Now it's time for some **inference**!
+
+We want to test if there is a positive effect of predictor $x$ on response $y$.
+
+Posterior samples of slope $b$ represent posterior distribution of $b$ given the data $p(b|y)$.
+
+So we can actually compute the posterior probability of a positive effect given the data $P(b>0|y)$.
+
+How to do that? Just count the number the event ($b>0$) occurs in the posterior samples, divide by total number of samples and that's the probability!
+
+Given the data, we are 100% sure that the effect is positive.
+
+```{r}
+hist(posterior[, "b"], xlim=c(0,max(posterior[, "b"])))
+abline(v=0, col="red", lwd=2)
+sum(posterior[, "b"]>0)/nrow(posterior)
+```
+
+Similarly, we can compute the probability of the effect being larger than 1 or effect being in the interval [0.9, 1.1].
+
+```{r}
+sum(posterior[, "b"]>1)/nrow(posterior)
+sum( (posterior[, "b"]>0.9) & (posterior[, "b"]<1.1) )/nrow(posterior)
+```
+
+# Posterior predictions
+
+Usually, it is **not** sufficient just to check if the MCMC sampler converged.
+
+That doesn't tell us anything about if our statistical model (deterministic part and stochastic part) describes the data adequately!
+
+For that, we have to compare observed and predicted values.
+
+Each row of the posterior matrix contains a sample of the posterior, i.e. intercept $a$ and slope $b$.
+
+We can evaluate or plot the deterministic model (regression line $a+b\cdot x$) using these parameters.
+
+E.g. plot the deterministic model for the first sample using the `abline()` command.
+
+```{r}
+plot(df)
+abline(posterior[1,"a"], posterior[1,"b"], col=adjustcolor("red", alpha.f=0.3))
+```
+
+Or plot the deterministic model for the first 100 samples. 
+
+We can see the uncertainty associated with the predictions.
+
+Remember that each row is a sample, i.e. we have to use intercept `a_i` and slope `b_i`.
+
+Never mix up the order, `a_i` with slope `b_j`!
+
+```{r}
+plot(df)
+for(i in 1:100){
+  abline(posterior[i,"a"], posterior[i,"b"], col=adjustcolor("red", alpha.f=0.3))
+}
+```
+
+`abline()` is a fancy command for plotting lines, but if we want a more generalized approach (more complex models later), we have to code the deterministic model ourself.
+
+`x.pred` is a vector of predictor values for which we want to make predictions.
+
+`y.cred` is a matrix that will contain all predictions. 
+
+We call it "cred" because we will use it for computing **"credible intervals"** / "confidence intervals" of the **deterministic model part**.
+
+See below for "prediction intervals"
+
+In Bayesian statistics, everything is a distribution. So also the predictions will be a distribution. 
+
+There are 3000 samples in the posterior, i.e. 3000 parameter combinations of intercept and slope.
+
+This means we can make 3000 predictions and these will be samples from a posterior predictive distribution.
+
+```{r}
+x.pred = seq(from=0, to=1, by=0.1)
+y.cred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
+
+for(i in 1:nrow(posterior)){
+  y.cred[i, ] = posterior[i,"a"] + posterior[i,"b"]*x.pred
+}
+```
+
+The element `y.cred[i,j]` (`i`th row, `j`th column) is the prediction for MCMC sample `i` (using parameters `a_i`,`b_i`) for predictor value `x.pred[j]`.
+
+Each row `i` contains predictions for all `x.pred` using single parameter set `a_i`,`b_i`.
+
+Each column `j` contains 3000 predictions (for all posterior samples) for one predictor value `x.pred[j]`.
+
+```{r}
+head(y.cred)
+hist(y.cred[,1])
+```
+
+As above, we can plot the first 100 predictions.
+
+```{r}
+plot(df)
+for(i in 1:100){
+  lines(x.pred, y.cred[i, ], col=adjustcolor("red", alpha.f=0.3))
+}
+```
+
+Since each column contains samples of a posterior distribution, we can make statistics, e.g. mean or confidence intervals. 
+
+In Bayesian stats, these confidence intervals are often called **"credible intervals"**.
+
+We will now plot the mean and the 90% credible intervals (using 5% and 95% quantiles). 
+
+Why 90% and not 95%? 95% is an arbitrary number. Choose your own credible interval!
+
+We use the `apply()` function to use the `mean()` and `quantile()` commands on each column of the matrix.
+
+
+```{r}
+plot(df)
+
+y.cred.mean = apply(y.cred, 2, function(x) mean(x)) 
+lines(x.pred, y.cred.mean, col="red", lwd=2)
+
+y.cred.q05 = apply(y.cred, 2, function(x) quantile(x, probs=0.05)) 
+lines(x.pred, y.cred.q05, col="red", lwd=2, lty=2)
+
+y.cred.q95 = apply(y.cred, 2, function(x) quantile(x, probs=0.95)) 
+lines(x.pred, y.cred.q95, col="red", lwd=2, lty=2)
+```
+
+A statistical model contains a **deterministic and stochastic part**.
+
+The credible / confidence intervals are computed using distribution of the deterministic part only!
+
+They are confidence intervals for the regression line, not for the data!
+
+Now we will compute **true prediction intervals** also using the **stochastic model part**. (data are normally distributed around regression line with standard deviation `sigma`).
+
+`y.pred` is structured as y.cred above:
+
+Each row `i` contains predictions for all `x.pred` using single parameter set `a_i`,`b_i` (and `sigma_i`).
+
+Each column `j` contains 3000 predictions (for all posterior samples) for one predictor value `x.pred[j]`.
+
+But now, each prediction is a random draw from `normal(a_i+b_i*x,sigma_i)` (deterministic part `a_i+b_i*x` was already computed in `y.cred`).
+
+y.pred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
+
+for(i in 1:nrow(posterior)){
+  y.pred[i, ] = rnorm(n=length(x.pred), mean=y.cred[i, ], sd=rep(posterior[i, "sigma"],length(x.pred)) )
+}
+
+```{r}
+y.pred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
+
+for(i in 1:nrow(posterior)){
+  y.pred[i, ] = rnorm(n=length(x.pred), mean=y.cred[i, ], sd=rep(posterior[i, "sigma"],length(x.pred)) )
+}
+
+plot(df)
+
+lines(x.pred, y.cred.mean, col="red", lwd=2)
+lines(x.pred, y.cred.q05, col="red", lwd=2, lty=2)
+lines(x.pred, y.cred.q95, col="red", lwd=2, lty=2)
+
+y.pred.mean = apply(y.pred, 2, function(x) mean(x)) 
+lines(x.pred, y.pred.mean, col="blue", lwd=2)
+
+y.pred.q05 = apply(y.pred, 2, function(x) quantile(x, probs=0.05)) 
+lines(x.pred, y.pred.q05, col="blue", lwd=2, lty=2)
+
+y.pred.q95 = apply(y.pred, 2, function(x) quantile(x, probs=0.95)) 
+lines(x.pred, y.pred.q95, col="blue", lwd=2, lty=2)
+
+legend("topleft", legend=c("90% credible","90% prediction"), lwd=c(2,2), col=c("red","blue"), bty="n", lty=c(2,2))
+```
+
+The 90% **credible interval** (red) tells us that we are 90% sure that the **regression line** is in that interval.
+
+The 90% **prediction interval** (blue) tells us that we are 90% sure that the **data** are in that interval.
+
+4 out of 50 datapoints are outside the prediction interval. 
+
+46 out of 50 datapoints are inside the prediction interval, that's 92% $\approx$ 90%.
+
+Note: you can also make predictions while fitting using the `generated_quantities{}` block.
+
+# Observed vs. predicted
+
+In the previous section we used a sequence of predictor values `x.pred` for making nice plots.
+
+For model validation, we should make predictions for the actual data.
+
+Then we can compare observed and predicted values (even if we have many predictors / groups and nice plots aren't possible).
+
+```{r}
+x.pred = df$x # this are the actual predictor values from the data
+y.cred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
+
+for(i in 1:nrow(posterior)){
+  y.cred[i, ] = posterior[i,"a"] + posterior[i,"b"]*x.pred
+}
+
+y.cred.mean = apply(y.cred, 2, function(x) mean(x))
+y.cred.q05 = apply(y.cred, 2, function(x) quantile(x, probs=0.05))
+y.cred.q95 = apply(y.cred, 2, function(x) quantile(x, probs=0.95))
+
+y.pred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
+for(i in 1:nrow(posterior)){
+  y.pred[i, ] = rnorm(n=length(x.pred), mean=y.cred[i, ], sd=rep(posterior[i, "sigma"],length(x.pred)) )
+}
+
+y.pred.mean = apply(y.pred, 2, function(x) mean(x)) 
+y.pred.q05 = apply(y.pred, 2, function(x) quantile(x, probs=0.05)) 
+y.pred.q95 = apply(y.pred, 2, function(x) quantile(x, probs=0.95)) 
+
+plot(df$y, y.pred.mean, ylim=c(min(df$y), max(df$y)), xlab="observed", ylab="predicted")
+abline(0,1)
+for (i in 1:n){
+  lines(c(df$y[i], df$y[i]), c(y.pred.q05[i], y.pred.q95[i]))
+}
+```
+
+There seems to be a little systematic underfitting going on for high observed values. (the dataset contains a small quadratic effect, see above)
+
+Note: you can also make predictions while fitting using the `generated_quantities{}` block.
+
+# Model comparison, AIC
+
+Will not be covered here. 
+
+Use the "loo" package for an information criterion that you can use similar to AIC.
+
+You have to calculate the pointwise log-likelihood values in your model in the "generated quantities{}" block.
+
+see https://cran.r-project.org/web/packages/loo/vignettes/loo2-with-rstan.html
+
+
+# Pitfalls of predictions
+
+That's a lot of code above just for predictions. Can't we just use the mean fitted parameters to make predictions?
+
+Please **never** do that! In Bayesian stats, everything is a distribution, also the predictions. 
+
+**For simple linear models, the mean of predictions can be equal to the predictions using the mean parameters.**
+
+**This is not the case for more complex models!**
+
+
+```{r}
+print(fit)
+summary.fit = summary(fit)$summary
+
+summary.fit
+
+plot(df)
+abline(summary.fit["a","mean"], summary.fit["b","mean"], col="red", lwd=2)
+points(x.pred,y.cred.mean, col="blue", pch="+")
+
+legend("topleft", legend=c("prediction using mean parameters (WRONG!)","means of predictions"), bty="n",
+       lty=c(1,NA), pch=c(NA,"+"), col=c("red","blue"), lwd=c(2,2))
+```
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,314 @@
+---
+title: "1.6 Exercise: first Stan model"
+author: "Benjamin Rosenbaum"
+date: "April 1, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exercise 1. 
+
+For the same dataset and statistical model as before, code the intercept and slope as a parameter vector of length 2: `vector[2] b;`
+
+# Exercise 2. 
+
+Fit a quadratic regression. 
+
+# Exercise 3. 
+
+Fit the linear regression using different numbers of MCMC samples (few, many) on the same dataset. How does the posterior change?
+
+# Exercise 4. 
+
+Fit the linear regression using different numbers of observations (few, many), i.e. on different datasets. How does the posterior change?
+
+# Exercise 1: linear regression, code parameters as vector
+
+Setup:
+
+```{r}
+rm(list=ls())
+library(rstan)
+library(coda)
+
+rstan_options(auto_write = TRUE)
+options(mc.cores = 3) 
+```
+
+First, we have to generate the data
+
+```{r}
+set.seed(123) # initiate random number generator for reproducability
+
+n=100
+
+a=1
+b=2
+sigma=0.5
+
+x = runif(n=n, min=0, max=1)
+y = rnorm(n=n, mean=a+b*x, sd=sigma)
+
+df = data.frame(x=x,
+                y=y)
+
+plot(df)
+```
+
+The statistical model now reads
+$$
+\begin{aligned}
+y_i & \sim \text{normal}(\mu_i, \sigma) \\ 
+\mu_i &= b_1+b_2\cdot x_i
+\end{aligned}
+$$
+
+The parameter is defined as vector b in the parameter block: `vector[2] b;`
+
+`b[1]` is the intercept, `b[2]` is the slope.
+
+When defining the **prior distribution**, `b ~ normal(0, 10);` is now short version of:
+
+`b[1] ~ normal(0, 10);`  
+`b[2] ~ normal(0, 10);`
+
+Again, the likelihood definition `y ~ normal(b[1]+b[2]*x,sigma);` is short for 
+`for(i in 1:n){ y[i]~normal(b[1]+b[2]*x[i],sigma); }`
+
+```{r}
+stan_code = '
+data {
+  int n;
+  vector[n] x;
+  vector[n] y;
+}
+parameters {
+  vector[2] b;  
+  real<lower=0> sigma;  
+}
+model {
+  // priors
+  b ~ normal(0, 10);
+  sigma ~ normal(0, 10);
+  // likelihood
+  y ~ normal(b[1]+b[2]*x, sigma);
+}
+'
+```
+
+We wrap the data in a named list, compile the Stan code and fit the model
+
+```{r}
+data = list(n=n, 
+            x=df$x, 
+            y=df$y)
+
+stan_model = stan_model(model_code=stan_code)
+# save(stan_model, file="stan_model.RData")
+# load("stan_model.RData")
+
+fit  = sampling(stan_model,
+                data=data,
+                chains=3,
+                iter=2000,
+                warmup=1000
+                )
+```
+
+The results are the same as before, we just renamed the parameters.
+
+```{r, fig.height=6}
+print(fit, probs=c(0.025, 0.975))
+
+posterior = As.mcmc.list(fit)
+plot(posterior[, c("b[1]", "b[2]", "sigma")])
+```
+
+# Exercise 2: quadratic regression. 
+
+The statistical model for quadratic regression reads
+$$
+\begin{aligned}
+y_i & \sim \text{normal}(\mu_i, \sigma) \\ 
+\mu_i &= b_1+b_2\cdot x_i+ b_3\cdot x_i^2
+\end{aligned}
+$$
+
+We define `vector[3] b;`in the parameters block containing intercept, effects of linear and quadratic term. 
+
+Again, in the prior definition `b ~ normal(0, 10);` is short for  
+`b[1] ~ normal(0, 10);`  
+`b[2] ~ normal(0, 10);`  
+`b[3] ~ normal(0, 10);`  
+
+**Attention:** we can't use the formulation `b[3]*x^2` or `b[3]*x*x` because these operations aren't defined for a vector `x` in Stan.
+
+Either use the pointwise vector operation `x .* x` or a for loop!
+
+```{r, fig.height=8}
+stan_code_2 = '
+data {
+  int n;
+  vector[n] x;
+  vector[n] y;
+}
+parameters {
+  vector[3] b;  
+  real<lower=0> sigma;  
+}
+model {
+  // priors
+  b ~ normal(0, 10);
+  sigma ~ normal(0, 10);
+  // likelihood
+  // for(i in 1:n){
+  //   y[i] ~ normal(b[1]+b[2]*x[i]+b[3]*x[i]^2, sigma);
+  // }
+  y ~ normal(b[1] + b[2]*x + b[3] * x .* x, sigma);
+}
+'
+
+stan_model_2 = stan_model(model_code=stan_code_2)
+# save(stan_model_2, file="stan_model_2.RData")
+# load("stan_model_2.RData")
+
+fit_2  = sampling(stan_model_2,
+                data=data,
+                chains=3,
+                iter=2000,
+                warmup=1000
+)
+
+print(fit_2, probs=c(0.025, 0.975))
+
+posterior_2 = As.mcmc.list(fit_2)
+
+plot(posterior_2[, c("b[1]", "b[2]", "b[3]", "sigma")])
+```
+
+There does not seem to be much evidence for a quadratic effect, there is a lot of probability mass distributed around zero (more on that tomorrow).
+
+**Reminder:** Do not interpret lower order effects ("main effects") independently from higher order effects!!
+
+
+# Exercise 3: linear regression, change number of MCMC samples
+
+We fit the same model to the same data, using different number of posterior samples per chain (100, 1000, 10000).
+
+(1000 already saved in `fit` object)
+
+We don't have to recompile the model!
+
+With larger sample size, we get a better approximation of the true posterior distribution.
+
+```{r}
+fit_few_samples  = sampling(stan_model,
+                            data=data,
+                            chains=3,
+                            iter=1100,
+                            warmup=1000
+)
+
+fit_many_samples  = sampling(stan_model,
+                             data=data,
+                             chains=3,
+                             iter=11000,
+                             warmup=1000
+)
+
+print(fit_few_samples)
+print(fit)
+print(fit_many_samples)
+```
+
+
+```{r, fig.height=6}
+plot(As.mcmc.list(fit_few_samples)[, c("b[1]", "b[2]", "sigma")])
+plot(As.mcmc.list(fit_many_samples)[, c("b[1]", "b[2]", "sigma")])
+```
+
+# Exercise 4: linear regression, change number of observations (data)
+
+We generate new datasets using identical (underlying) parameters, but using different numbers of observations (20, 100, 500).
+
+With larger number of observations, we get lower posterior standard deviations, i.e. lower uncertainty (higher certainty) in parameter estimation.
+
+More information in the data (in the likelihood) means a more narrow (more informative) posterior distribution. 
+
+```{r}
+set.seed(123) # initiate random number generator for reproducability
+
+n.few = 20
+x.few = runif(n=n.few, min=0, max=1)
+y.few = rnorm(n=n.few, mean=a+b*x.few, sd=sigma)
+
+n.many = 500
+x.many = runif(n=n.many, min=0, max=1)
+y.many = rnorm(n=n.many, mean=a+b*x.many, sd=sigma)
+
+par(mfrow=c(1,3))
+plot(x.few,y.few)
+plot(x,y)
+plot(x.many,y.many)
+```
+
+We wrap the datasets in named lists and fit the linear model. (`n=100` already saved in `fit` object)
+
+```{r}
+data.few = list(n=n.few, 
+                x=x.few,
+                y=y.few)
+
+data.many = list(n=n.many, 
+                 x=x.many,
+                 y=y.many)
+
+fit_few_obs  = sampling(stan_model,
+                        data=data.few,
+                        chains=3,
+                        iter=2000,
+                        warmup=1000
+)
+
+fit_many_obs  = sampling(stan_model,
+                         data=data.many,
+                         chains=3,
+                         iter=2000,
+                         warmup=1000
+)
+
+print(fit_few_obs)
+print(fit)
+print(fit_many_obs)
+
+plot(fit_few_obs)
+plot(fit)
+plot(fit_many_obs)
+```
+
+We can also extract the posterior density for single parameters, e.g. the slope `b[2]`, and see how the posterior changes with size of the data.
+
+(More on handling the posterior distribution tomorrow)
+
+```{r}
+posterior=as.matrix(fit)
+posterior_few_obs=as.matrix(fit_few_obs)
+posterior_many_obs=as.matrix(fit_many_obs)
+
+density_1=density(posterior[, "b[2]"])
+density_few_obs=density(posterior_few_obs[, "b[2]"])
+density_many_obs=density(posterior_many_obs[, "b[2]"])
+
+par(mfrow=c(1,1))
+
+plot(density_1, xlim=c(0.5,2.5), ylim=c(0,5), main="slope b[2]", xlab="")
+lines(density_few_obs, col="red")
+lines(density_many_obs, col="blue")
+legend("topleft", bty="n", legend=c("few obs","med obs","many obs"), lty=c(1,1,1), col=c("red","black","blue"))
+```
+
+
+
