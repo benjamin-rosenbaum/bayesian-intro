@@ -33,3 +33,14 @@
 [8 - Practical: Nonlinear response](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_8_practical_functional_response.html)
 
 [9 - Practical: Logistic growth](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_9_practical_logistic_growth.html)
+
+## Day 3
+
+[1 - Practical: Fixed and random effetcs](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_1_practical_fixed_and_random_effects.html)
+
+[2 - Practical: Random intercepts regression](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_2_practical_random_intercepts_regression.html)
+
+[3 - Exercise: Random intercepts and slopes](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_3_practical_posterior.html)
+
+[4 - Lecture: Conclusions](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_4_Conclusions.html)
+
