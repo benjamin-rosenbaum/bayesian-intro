@@ -1,5 +1,9 @@
 # Introduction to Bayesian statistics
 
+3 day course: April 1 - April 3 2019  
+German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig  
+benjamin.rosenbaum@idiv.de  
+
 ## Day 1
 
 [1 - Lecture: Introduction](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_1_Intro.html)
