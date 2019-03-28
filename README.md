@@ -12,7 +12,7 @@ benjamin.rosenbaum@idiv.de
 
 [3 - Lecture: Bayesian principles](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_3_Bayesian_principles.html)
 
-[4 - Lecture: Stan: a probabilistic programming language](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_4_Stan.html)
+[4 - Lecture: Stan - a probabilistic programming language](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_4_Stan.html)
 
 [5 - Practical: my first Stan model](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_5_practical_first_Stan_model.html)
 
@@ -40,7 +40,7 @@ benjamin.rosenbaum@idiv.de
 
 ## Day 3
 
-[1 - Practical: Fixed and random effetcs](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_1_practical_fixed_and_random_effects.html)
+[1 - Practical: Fixed and random effects](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_1_practical_fixed_and_random_effects.html)
 
 [2 - Practical: Random intercepts regression](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_2_practical_random_intercepts_regression.html)
 
