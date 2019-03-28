@@ -150,3 +150,12 @@ for (i in 1:5){
   lines(x.pred, y.cred.q95, col="red", lwd=2, lty=2)
 }
 
+#------------------------------------------------------------------------------
+# Further reading
+#------------------------------------------------------------------------------
+
+# read about complete pooling, partial pooling, no pooling and shrinkage:
+
+# https://www.tjmahr.com/plotting-partial-pooling-in-mixed-effects-models/
+  
+  

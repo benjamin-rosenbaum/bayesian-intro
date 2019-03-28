@@ -294,3 +294,5 @@ t.test(y.1, y.2)
 df$group = as.factor(df$group)
 summary(lm(y~group, data=df))
 
+# Common statistical tests are linear models!
+# https://lindeloev.github.io/tests-as-linear/

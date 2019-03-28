@@ -18,7 +18,7 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-setwd("~/Desktop/teaching Bayes")
+# setwd("~/Desktop/teaching Bayes")
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) 
@@ -27,7 +27,7 @@ options(mc.cores = 3)
 # Read dataset
 
 ```{r}
-df = read.csv("data/FruitflyDataReduced.csv")
+df = read.csv("~/git/bayesian-intro/data/FruitflyDataReduced.csv")
 df$Thorax.norm = as.numeric(scale(df$Thorax))
 df$group = as.integer(df$CompanionNumber)
 
@@ -176,3 +176,10 @@ for (i in 1:5){
   lines(x.pred, y.cred.q95, col="red", lwd=2, lty=2)
 }
 ```
+
+# Further reading
+
+read about complete pooling, partial pooling, no pooling and shrinkage:
+
+https://www.tjmahr.com/plotting-partial-pooling-in-mixed-effects-models/
+

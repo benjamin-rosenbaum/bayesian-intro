@@ -304,7 +304,7 @@ fit  = sampling(stan_model,
 ## sigma   0.924   0.002 0.080   0.782   1.091  2665    1
 ## lp__  -28.849   0.029 1.213 -31.901 -27.486  1710    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Mar 28 11:05:52 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Mar 28 15:09:22 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -404,7 +404,7 @@ fit_delta  = sampling(stan_model_delta,
 ## delta   1.211   0.005 0.228   0.758   1.659  2507 1.001
 ## lp__  -28.922   0.035 1.289 -32.329 -27.472  1382 1.000
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Mar 28 11:06:27 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Mar 28 15:09:55 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -482,7 +482,7 @@ print(fit_alternative, digits=3, probs=c(0.025, 0.975))</code></pre>
 ## delta   1.212   0.004 0.221   0.757   1.640  2551 1.000
 ## lp__  -28.861   0.034 1.250 -32.118 -27.460  1340 1.000
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Mar 28 11:06:59 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Mar 28 15:10:29 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -552,7 +552,7 @@ print(fit_alternative_2, digits=3, probs=c(0.025, 0.975))</code></pre>
 ## sigma   0.925   0.002 0.081   0.780   1.096  1837 1.000
 ## lp__  -28.895   0.035 1.272 -32.140 -27.449  1298 1.001
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Mar 28 11:07:30 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Mar 28 15:11:00 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -591,6 +591,8 @@ summary(lm(y~group, data=df))</code></pre>
 ## Residual standard error: 0.9079 on 68 degrees of freedom
 ## Multiple R-squared:  0.3099, Adjusted R-squared:  0.2997 
 ## F-statistic: 30.53 on 1 and 68 DF,  p-value: 5.615e-07</code></pre>
+<p>Common statistical tests are linear models!</p>
+<p><a href="https://lindeloev.github.io/tests-as-linear/" class="uri">https://lindeloev.github.io/tests-as-linear/</a></p>
 </div>
 
 
