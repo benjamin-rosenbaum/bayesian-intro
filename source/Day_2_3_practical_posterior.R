@@ -71,7 +71,7 @@ data = list(n=n,
 
 
 stan_model = stan_model(model_code=stan_code)
-save(file="stan_model_test.RData", list="stan_model")
+# save(file="stan_model_test.RData", list="stan_model")
 # load("stan_model_test.RData")
 
 #------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ fit  = sampling(stan_model,
 )
 
 #------------------------------------------------------------------------------
-# explore the posterior 
+# explore the posterior distribution
 #------------------------------------------------------------------------------
 
 # first, we look at the output and check n_eff and Rhat.

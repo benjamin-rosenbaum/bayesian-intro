@@ -97,8 +97,8 @@ options(mc.cores = 3) # number of CPU cores used
 # Until yet, the Stan code is just saved as text. stan_model() compiles this text into fast C++ code and we save this as an object. This can take a minute!
 
 stan_model = stan_model(model_code=stan_code)
-save(stan_model, file="stan_model.RData")
-load("stan_model.RData")
+# save(stan_model, file="stan_model.RData")
+# load("stan_model.RData")
 
 #------------------------------------------------------------------------------
 # MCMC sampling 

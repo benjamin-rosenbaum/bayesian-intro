@@ -97,20 +97,20 @@ model {
   y ~ normal(b[1]+b[2]*x, sigma);
 }
 '
-# stan_model_1 = stan_model(model_code=stan_code_1)
-# stan_model_2 = stan_model(model_code=stan_code_2)
-# stan_model_3 = stan_model(model_code=stan_code_3)
-# stan_model_4 = stan_model(model_code=stan_code_4)
-# 
+stan_model_1 = stan_model(model_code=stan_code_1)
+stan_model_2 = stan_model(model_code=stan_code_2)
+stan_model_3 = stan_model(model_code=stan_code_3)
+stan_model_4 = stan_model(model_code=stan_code_4)
+
 # save(stan_model_1, file="stan_model_1.RData")
 # save(stan_model_2, file="stan_model_2.RData")
 # save(stan_model_3, file="stan_model_3.RData")
 # save(stan_model_4, file="stan_model_4.RData")
 
-load("stan_model_1.RData")
-load("stan_model_2.RData")
-load("stan_model_3.RData")
-load("stan_model_4.RData")
+# load("stan_model_1.RData")
+# load("stan_model_2.RData")
+# load("stan_model_3.RData")
+# load("stan_model_4.RData")
 
 
 #------------------------------------------------------------------------------

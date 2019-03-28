@@ -55,9 +55,9 @@ data = list(n=n,
             x=df$x, 
             y=df$y)
 
-# stan_model = stan_model(model_code=stan_code)
+stan_model = stan_model(model_code=stan_code)
 # save(stan_model, file="stan_model.RData")
-load("stan_model.RData")
+# load("stan_model.RData")
 
 fit  = sampling(stan_model,
                 data=data,
@@ -106,9 +106,9 @@ model {
 }
 '
 
-# stan_model_2 = stan_model(model_code=stan_code_2)
+stan_model_2 = stan_model(model_code=stan_code_2)
 # save(stan_model_2, file="stan_model_2.RData")
-load("stan_model_2.RData")
+# load("stan_model_2.RData")
 
 fit_2  = sampling(stan_model_2,
                 data=data,
