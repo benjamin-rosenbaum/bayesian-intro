@@ -79,7 +79,7 @@ model {
 '
 
 stan_model = stan_model(model_code=stan_code)
-save(stan_model, file="stan_model.Rdata")
+# save(stan_model, file="stan_model.Rdata")
 # load("stan_model.Rdata")
 
 fit  = sampling(stan_model,
@@ -105,7 +105,7 @@ posterior=as.matrix(fit)
 str(posterior)
 head(posterior)
 
-correlationPlot(posterior[1:3], thin=1)
+correlationPlot(posterior[, 1:3], thin=1)
 
 # Now we compute the distribution of differences. 
 # The estimated mean difference in populations is 1.20 with a standard deviation (uncertainty) of 0.22.
@@ -144,7 +144,7 @@ model {
   // priors
   mu1 ~ normal(0, 10);
   mu2 ~ normal(0, 10);
-  mu2 ~ normal(0, 10);
+  sigma ~ normal(0, 10);
   // likelihood
   y1 ~ normal(mu1, sigma);
   y2 ~ normal(mu2, sigma);
@@ -156,7 +156,7 @@ generated quantities{
 '
 
 stan_model_delta = stan_model(model_code=stan_code_delta)
-save(stan_model_delta, file="stan_model_delta.Rdata")
+# save(stan_model_delta, file="stan_model_delta.Rdata")
 # load("stan_model_delta.Rdata")
 
 fit_delta  = sampling(stan_model_delta,
@@ -219,7 +219,7 @@ generated quantities{
 '
 
 stan_model_alternative = stan_model(model_code=stan_code_alternative)
-save(stan_model_alternative, file="stan_model_alternative.Rdata")
+# save(stan_model_alternative, file="stan_model_alternative.Rdata")
 # load("stan_model_alternative.Rdata")
 
 fit_alternative  = sampling(stan_model_alternative,
@@ -273,7 +273,7 @@ model {
 '
 
 stan_model_alternative_2 = stan_model(model_code=stan_code_alternative_2)
-save(stan_model_alternative_2, file="stan_model_alternative_2.Rdata")
+# save(stan_model_alternative_2, file="stan_model_alternative_2.Rdata")
 # load("stan_model_alternative_2.Rdata")
 
 fit_alternative_2  = sampling(stan_model_alternative_2,

@@ -69,7 +69,7 @@ model {
 '
 
 stan_model = stan_model(model_code=stan_code)
-save(stan_model, file="stan_model.RData")
+# save(stan_model, file="stan_model.RData")
 # load("stan_model.RData")
 
 fit  = sampling(stan_model,

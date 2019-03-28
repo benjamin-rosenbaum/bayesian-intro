@@ -88,7 +88,7 @@ data = list(n=n,
             y=df$y)
 
 
-# stan_model_lin = stan_model(model_code=stan_code_lin)
+stan_model_lin = stan_model(model_code=stan_code_lin)
 stan_model_quad = stan_model(model_code=stan_code_quad)
 
 #------------------------------------------------------------------------------

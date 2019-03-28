@@ -94,7 +94,7 @@ model {
 '
 
 stan_model = stan_model(model_code=stan_code)
-save(stan_model, file="stan_model.RData")
+# save(stan_model, file="stan_model.RData")
 # load("stan_model.RData")
 
 fit  = sampling(stan_model,
@@ -208,7 +208,7 @@ model {
 '
 
 stan_model_lognormal = stan_model(model_code=stan_code_lognormal)
-save(stan_model_lognormal, file="stan_model_lognormal.RData")
+# save(stan_model_lognormal, file="stan_model_lognormal.RData")
 # load("stan_model_lognormal.RData")
 
 fit_lognormal  = sampling(stan_model_lognormal,
@@ -288,3 +288,4 @@ abline(0,1)
 for (i in 1:n){
   lines(c(data$y[i], data$y[i]), c(y.pred.q05[i], y.pred.q95[i]))
 }
+

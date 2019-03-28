@@ -182,7 +182,7 @@ model {
   // priors
   mu1 ~ normal(0, 10);
   mu2 ~ normal(0, 10);
-  mu2 ~ normal(0, 10);
+  sigma ~ normal(0, 10);
   // likelihood
   y1 ~ normal(mu1, sigma);
   y2 ~ normal(mu2, sigma);

@@ -44,6 +44,7 @@ p = inv.logit(a+b*x)
 
 y = rbinom(n=n, size=1, prob=p)
 
+par(mfrow=c(1,1))
 plot(x,y)
 lines(x,p, lty=2)
 
@@ -77,9 +78,9 @@ model {
 }
 '
 
-# stan_model = stan_model(model_code=stan_code)
+stan_model = stan_model(model_code=stan_code)
 # save(stan_model, file="stan_model.RData")
-load("stan_model.RData")
+# load("stan_model.RData")
 
 fit  = sampling(stan_model,
                 data=data,
@@ -97,7 +98,7 @@ posterior=as.matrix(fit)
 
 head(posterior)
 
-correlationPlot(posterior[1:2], thin=1)
+correlationPlot(posterior[, 1:2], thin=1)
 
 #------------------------------------------------------------------------------
 # predictions 
@@ -170,9 +171,9 @@ model {
 }
 '
 
-# stan_model_2 = stan_model(model_code=stan_code_2)
+stan_model_2 = stan_model(model_code=stan_code_2)
 # save(stan_model_2, file="stan_model_2.RData")
-load("stan_model_2.RData")
+# load("stan_model_2.RData")
 
 fit_2  = sampling(stan_model_2,
                   data=data,
