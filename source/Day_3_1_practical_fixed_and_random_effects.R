@@ -2,8 +2,7 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-setwd("~/Desktop/teaching Bayes")
-
+# setwd("~/Desktop/teaching Bayes")
 
 # Aim: learn what a random effect is.
 # Learn about hierarchical levels of parameters. Bayesian statistics is great for hierearchical models!
@@ -21,7 +20,7 @@ options(mc.cores = 3)
 # It contains information on the lifespan (Longevity) of male fruitflies depending on their sexual activity.
 # Sexual activity was experimentally manipulated by different numbers of pregnant or virgin female fruitflies (CompanionNumber).
 
-df = read.csv("data/FruitflyDataReduced.csv")
+df = read.csv("~/git/bayesian-intro/data/FruitflyDataReduced.csv")
 head(df)
 str(df)
 
@@ -89,7 +88,7 @@ model {
 '
 
 stan_model_nopool = stan_model(model_code=stan_code_nopool)
-save(stan_model_nopool, file="stan_code_nopool.RData")
+# save(stan_model_nopool, file="stan_code_nopool.RData")
 # load("stan_code_nopool.RData")
 
 fit_nopool  = sampling(stan_model_nopool,
@@ -175,7 +174,7 @@ model {
 '
 
 stan_model_partpool = stan_model(model_code=stan_code_partpool)
-save(stan_model_partpool, file="stan_code_partpool.RData")
+# save(stan_model_partpool, file="stan_code_partpool.RData")
 # load("stan_code_partpool.RData")
 
 fit_partpool  = sampling(stan_model_partpool,

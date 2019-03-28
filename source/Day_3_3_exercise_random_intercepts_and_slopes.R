@@ -2,7 +2,7 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-setwd("~/Desktop/teaching Bayes")
+# setwd("~/Desktop/teaching Bayes")
 
 set.seed(123) # initiate random number generator for reproducability
 
@@ -18,7 +18,7 @@ options(mc.cores = 3)
 # load data 
 #------------------------------------------------------------------------------
 
-df = read.csv("data/FruitflyDataReduced.csv")
+df = read.csv("~/git/bayesian-intro/data/FruitflyDataReduced.csv")
 df$Thorax.norm = as.numeric(scale(df$Thorax))
 df$group = as.integer(df$CompanionNumber)
 
@@ -87,9 +87,9 @@ model {
 }
 '
 
-# stan_model_partial = stan_model(model_code=stan_code_partial)
+stan_model_partial = stan_model(model_code=stan_code_partial)
 # save(stan_model_partial, file="stan_code_partial.RData")
-load("stan_code_partial.RData")
+# load("stan_code_partial.RData")
 
 fit_partial  = sampling(stan_model_partial,
                         data=data,
@@ -112,7 +112,7 @@ plot(fit_partial)
 # plot(fit_partial, pars="a")
 plot(As.mcmc.list(fit_partial)) # from coda package
 
-pairs(fit_partial, pars=c("b","mu_b","sigma_b"))
+# pairs(fit_partial, pars=c("b","mu_b","sigma_b"))
 
 posterior=as.matrix(fit_partial)
 
