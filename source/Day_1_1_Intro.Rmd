@@ -40,6 +40,8 @@ knitr::opts_chunk$set(echo = FALSE)
 - $y\sim\text{normal}(\mu,\sigma)$:   
     $y$ is a normally distributed random variable   
     with mean $\mu$ and standard deviation $\sigma$
+- know your distribution!
+    https://ben18785.shinyapps.io/distribution-zoo/
 
 ## Goals
 
