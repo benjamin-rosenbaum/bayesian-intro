@@ -190,6 +190,14 @@ knitr::include_graphics("pics/mcelreath.jpg")
 
 https://github.com/rmcelreath/statrethinking_winter2019
 
+## Save the date!
+
+### 26 April, 10 am (Niche)
+
+- bring your own model!
+- briefly present your first model / work in progress / problem
+- group discussions
+
 ## That's it!
 
 ### Good luck with your own models!
