@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Repeat the steps of the last exercise 2.4 and fit a quadratic regression.
+Repeat the steps of the last exercise 2.3 and fit a quadratic regression.
 
 # Setup 
 

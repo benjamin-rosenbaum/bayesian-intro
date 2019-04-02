@@ -4,13 +4,15 @@ library(coda)
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) 
 
-# We code 4 versions of the linear regression model. Each model has a different prior distribution for the slope b[2].
+# We code 4 versions of the linear regression model. 
+# Each model has a different prior distribution for the slope b[2].
 # - model 1: flat prior. nor prior information on b[2]=slope given
 # - model 2: b[2]~normal(0,10)
 # - model 3: b[2]~normal(0,1)
 # - model 4: b[2]~normal(0,0.1)
 
-# We generate 3 different datasets with varying numbers of observations (10, 100, 1000) and fit all 4 models to each of them
+# We generate 3 different datasets with varying numbers of observations 
+# (10, 100, 1000) and fit all 4 models to each of them
 
 # For the large dataset (n_obs=1000), the prior has almost no effect on the posterior distribution, 
 # only the very informative prior (normal(0,0.1)) pulls the posterior estimate towards zero.

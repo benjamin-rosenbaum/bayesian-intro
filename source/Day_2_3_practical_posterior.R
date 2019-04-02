@@ -2,11 +2,10 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-setwd("~/Desktop/teaching Bayes")
+# setwd("~/Desktop/teaching Bayes")
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) # number of CPU cores
-
 
 # in this session, we will learn how to fit a model and to interpret the output. 
 # specifically, we learn how to deal with the posterior distribution to make inference and predictions.
@@ -69,7 +68,6 @@ data = list(n=n,
             x=df$x, 
             y=df$y)
 
-
 stan_model = stan_model(model_code=stan_code)
 # save(file="stan_model_test.RData", list="stan_model")
 # load("stan_model_test.RData")
@@ -97,20 +95,26 @@ print(fit, digits=3, probs=c(0.025, 0.975))
 
 plot(fit)
 
-# plotting from coda package (covert fit object to mcmc.list object) also shows traceplots of the 3 chains.
-# They look like a fat hairy caterpillar, so we assume the chains are a good representation of the true posterior distribution.
+# plotting from coda package (covert fit object to mcmc.list object)
+# also shows traceplots of the 3 chains.
+# They look like a fat hairy caterpillar, 
+# so we assume the chains are a good representation of the true posterior distribution.
 
 plot(As.mcmc.list(fit)) # from coda package
 
-# What is the posterior exactly? Convert fit object into a matrix. Now the 3 chains are concatenated to 1.
-# It has n_total=3000 rows and 1 column per parameter (3 parameters + "lp__", we ignore the last one)
+# What is the posterior exactly? 
+# Convert fit object into a matrix. 
+# Now the 3 chains are concatenated to 1.
+# It has n_total=3000 rows and 1 column per parameter 
+# (3 parameters + "lp__", we ignore the last one)
 
 posterior=as.matrix(fit)
 str(posterior)
 head(posterior)
 
 # each column contains all posterior samples of 1 parameter.
-# We can look at this (marginal) posterior distribution. This is the same as the plotting commands above.
+# We can look at this (marginal) posterior distribution. 
+# This is the same as the plotting commands above.
 # We can index the columns by number or by name.
 
 str(posterior[, 1])
@@ -120,7 +124,8 @@ hist(posterior[, "a"])
 
 # each row contains one sample of the multidimensional posterior.
 # important: each draw / sample consists of a multidimensional vector for a,b,sigma.
-# if you change the order of one column (permutation), the whole thing is not a representation of the posterior anymore!
+# if you change the order of one column (permutation), 
+# the whole thing is not a representation of the posterior anymore!
 # each element of the matrix is linked to the other elements in that row!
 
 str(posterior[1, ])
@@ -131,7 +136,8 @@ posterior[1, ]
 # (especially if the data is not centered).
 # correlationPlot() shows pairwise plots and correlation coefficients.
 # some correlation is generally not a problem in Bayesian statistics! 
-# Perfect correlation (samples perfectly distributed along a line or a curve), however, would indicate some problem with the model (unidentifiability).
+# Perfect correlation (samples perfectly distributed along a line or a curve), 
+# however, would indicate some problem with the model (unidentifiability).
 
 pairs(fit, pars=c("a","b","sigma"))
 correlationPlot(posterior[, 1:3], thin=1) # from BayesianTools package
@@ -159,11 +165,14 @@ sum( (posterior[, "b"]>0.9) & (posterior[, "b"]<1.1) )/nrow(posterior)
 #------------------------------------------------------------------------------
 
 # Usually, it is *not* sufficient just to check if the MCMC sampler converged.
-# That doesn't tell us anything about if our statistical model (deterministic part and stochastic part) describes the data adequately!
+# That doesn't tell us anything about if our statistical model 
+# (deterministic part and stochastic part) describes the data adequately!
 # For that, we have to compare observed and predicted values
 
-# Each row of the posterior matrix contains a sample of the posterior, i.e. intercept a and slope b.
-# We can evaluate or plot the deterministic model (regression line a+b*x) using these parameters.
+# Each row of the posterior matrix contains a sample of the posterior, 
+# i.e. intercept a and slope b.
+# We can evaluate or plot the deterministic model (regression line a+b*x) 
+# using these parameters.
 # E.g. plot the deterministic model for the first sample using the abline() command.
 
 plot(df)
@@ -180,14 +189,19 @@ for(i in 1:100){
 }
 
 # abline() is a fancy command for plotting lines, 
-# but if we want a more generalized approach (more complex models later), we have to code the deterministic model ourself.
+# but if we want a more generalized approach (more complex models later), 
+# we have to code the deterministic model ourself.
 # x.pred is a vector of predictor values for which we want to make predictions
 # y.cred is a matrix that will contain all predictions. 
-# We call it "cred" because we will use it for computing "credible intervals" / "confidence intervals" of the deterministic model.
+# We call it "cred" because we will use it for computing 
+# "credible intervals" / "confidence intervals" of the deterministic model.
 # See below for "prediction intervals"
-# In Bayesian statistics, everything is a distribution. So also the predictions will be a distribution. 
-# There are 3000 samples in the posterior, i.e. 3000 parameter combinations of intercept and slope.
-# This means we can make 3000 predictions and these will be samples from a posterior predictive distribution.
+# In Bayesian statistics, everything is a distribution. 
+# So also the predictions will be a distribution. 
+# There are 3000 samples in the posterior, 
+# i.e. 3000 parameter combinations of intercept and slope.
+# This means we can make 3000 predictions and these will be 
+# samples from a posterior predictive distribution.
 
 x.pred = seq(from=0, to=1, by=0.1)
 y.cred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
@@ -196,7 +210,8 @@ for(i in 1:nrow(posterior)){
   y.cred[i, ] = posterior[i,"a"] + posterior[i,"b"]*x.pred
 }
 
-# The element y.cred[i,j] (ith row, jth column) is the prediction for sample i (using parameters a_i,b_i) for predictor value x_j
+# The element y.cred[i,j] (ith row, jth column) is the prediction for 
+# sample i (using parameters a_i,b_i) for predictor value x_j
 # Each row i contains predictions for all x using single parameter set a_i,b_i.
 # Each column j contains 3000 predictions (for all posterior samples) for one predictor value x_j.
 
@@ -210,7 +225,8 @@ for(i in 1:100){
   lines(x.pred, y.cred[i, ], col=adjustcolor("red", alpha.f=0.3))
 }
 
-# Since each column contains samples of a posterior distribution, we can make statistics, e.g. mean or confidence intervals. 
+# Since each column contains samples of a posterior distribution, 
+# we can make statistics, e.g. mean or confidence intervals. 
 # In Bayesian stats, these confidence intervals are often called "credible intervals". 
 # We will now plot the mean and the 90% credible intervals (using 5% and 95% quantiles). 
 # Why 90% and not 95%? 95% is an arbitrary number. Choose your own credible interval!
@@ -228,14 +244,17 @@ y.cred.q95 = apply(y.cred, 2, function(x) quantile(x, probs=0.95))
 lines(x.pred, y.cred.q95, col="red", lwd=2, lty=2)
 
 # A statistical model contains a deterministic and stochastic part. 
-# The credible / confidence intervals are computed using distribution of the deterministic part only!
+# The credible / confidence intervals are computed using the 
+# distribution of the deterministic part only!
 # They are confidence intervals for the regression line, not for the data!
 # Now we will compute true prediction intervals also using the stochastic model part 
 # (data are normally distributed around regression line with standard deviation \sigma).
 
 # y.pred is structured as y.cred above:
-# Each row i contains predictions for all x using single parameter set a_i,b_i (and sigma_i).
-# Each column j contains 3000 predictions (for all posterior samples) for one predictor value x_j.
+# Each row i contains predictions for all x using 
+# a single parameter set a_i,b_i (and sigma_i).
+# Each column j contains 3000 predictions (for all posterior samples)
+# for one predictor value x_j.
 # But now, each prediction is a random draw from normal(a_i+b_i*x,sigma_i)
 # (deterministic part a_i+b_i*x was already computed in y.cred)
 
@@ -262,8 +281,10 @@ lines(x.pred, y.pred.q95, col="blue", lwd=2, lty=2)
 
 legend("topleft", legend=c("90% credible","90% prediction"), lwd=c(2,2), col=c("red","blue"), bty="n", lty=c(2,2))
 
-# The 90% credible interval (red) tells us that we are 90% sure that the regression line is in that interval.
-# The 90% prediction interval (blue) tells us that we are 90% sure that the data are in that interval.
+# The 90% credible interval (red) tells us that we are 
+# 90% sure that the regression line is in that interval.
+# The 90% prediction interval (blue) tells us that we are 
+# 90% sure that the data are in that interval.
 
 # 4 out of 50 datapoints are outside the prediction interval. 
 # 46 out of 50 datapoints are inside the prediction interval, that's 92%.
@@ -276,7 +297,8 @@ legend("topleft", legend=c("90% credible","90% prediction"), lwd=c(2,2), col=c("
 
 # In the section above we used a sequence of predictor values x.pred for making nice plots.
 # For model validation, we should make predictions for the actual data.
-# Then we can compare observed and predicted values (even if we have many predictors / groups and nice plots aren't possible).
+# Then we can compare observed and predicted values 
+# (even if we have many predictors / groups and nice plots aren't possible).
 
 x.pred = df$x
 y.cred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
@@ -304,6 +326,11 @@ for (i in 1:n){
   lines(c(df$y[i], df$y[i]), c(y.pred.q05[i], y.pred.q95[i]))
 }
 
+# residual plots
+
+plot(df$y, df$y-y.pred.mean)
+abline(0,0)
+
 # There seems to be a little systematic underfitting going on for high observed values. 
 # (the dataset contains a small quadratic effect, see above)
 
@@ -321,7 +348,8 @@ for (i in 1:n){
 # pitfall of predictions
 #------------------------------------------------------------------------------
 
-# That's a lot of code above just for predictions. Can't we just use the mean fitted parameters to make predictions?
+# That's a lot of code above just for predictions. 
+# Can't we just use the mean fitted parameters to make predictions?
 # Please **never** do that! In Bayesian stats, everything is a distribution, also the predictions. 
 # For simple linear models, the mean of predictions can be equal to the predictions using the mean parameters.
 # This is not the case for more complex models!

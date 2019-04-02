@@ -39,12 +39,16 @@ data {
   vector[n] y;
 }
 parameters {
-  vector[2] b;  
+  vector[2] b;  // real b[2];
   real<lower=0> sigma;  
 }
 model {
   // priors
   b ~ normal(0, 10);
+  
+  // b[1] ~ normal(0, 10);
+  // b[2] ~ normal(0, 10);
+
   sigma ~ normal(0, 10);
   // likelihood
   y ~ normal(b[1]+b[2]*x, sigma);
@@ -75,13 +79,15 @@ plot(posterior[, c("b[1]", "b[2]", "sigma")])
 # exercise 2 - quadratic stan model
 #------------------------------------------------------------------------------
 
-# define vector[3] b;  in the parameters block containing intercept, effects of linear and quadratic term. 
+# define vector[3] b;  in the parameters block containing intercept, 
+# effects of linear and quadratic term. 
 # again, in the prior definition b ~ normal(0, 10); is short for 
 # b[1] ~ normal(0, 10);
 # b[2] ~ normal(0, 10);
 # b[3] ~ normal(0, 10);
 # (can use both)
-# Attention: we can't use the formulation "b[3]*x^2" or "b[3]*x*x" because these operations aren't defined for a vector x in Stan.
+# Attention: we can't use the formulation "b[3]*x^2" or "b[3]*x*x" 
+# because these operations aren't defined for a vector x in Stan.
 # Either use the pointwise vector operation x .* x or a for loop!
 
 stan_code_2 = '
@@ -96,7 +102,7 @@ parameters {
 }
 model {
   // priors
-  b ~ normal(0, 10);
+  b ~ normal({0.0, 0.0 , 0.0}, {10.0, 10.0, 10.0});
   sigma ~ normal(0, 10);
   // likelihood
   // for(i in 1:n){
@@ -123,15 +129,21 @@ posterior_2 = As.mcmc.list(fit_2)
 
 plot(posterior_2[, c("b[1]", "b[2]", "b[3]", "sigma")])
 
+plot(posterior_2[, c("b[3]")])
+
+
 # There does not seem to be much evidence for a quadratic effect, 
-# there is a lot of probability mass distributed around zero (more on that tomorrow).
-# Reminder: Do not interpret lower order effects ("main effects") independently from higher order effects!!
+# there is a lot of probability mass distributed around zero 
+# (more on that tomorrow).
+# Reminder: Do not interpret lower order effects ("main effects") 
+# independently from higher order effects!!
 
 #------------------------------------------------------------------------------
 # exercise 3 - lin.reg., different number of samples
 #------------------------------------------------------------------------------
 
-# we fit the same model to the same data, using different number of posterior samples per chain (100, 1000, 10000)
+# we fit the same model to the same data, 
+# using different number of posterior samples per chain (100, 1000, 10000)
 # (1000 already saved in fit object)
 # with larger sample size, we get a better approximation of the true posterior distribution
 
@@ -153,8 +165,8 @@ print(fit_few_samples)
 print(fit)
 print(fit_many_samples)
 
-plot(As.mcmc.list(fit_few_samples))
-plot(As.mcmc.list(fit_many_samples))
+plot(As.mcmc.list(fit_few_samples)[,1:3])
+plot(As.mcmc.list(fit_many_samples)[,1:3])
 
 plot(fit_few_samples)
 plot(fit_many_samples)
@@ -177,8 +189,10 @@ plot(fit_many_samples)
 # exercise 4 - lin.reg., different number of observations
 #------------------------------------------------------------------------------
 
-# we generate new datasets using identical parameters, but using different numbers of observations
-# with larger number of observations, we get lower posterior standard deviations, i.e. lower uncertainty in parameter estimation.
+# we generate new datasets using identical parameters, 
+# but using different numbers of observations
+# with larger number of observations, we get lower posterior standard deviations,
+# i.e. lower uncertainty in parameter estimation.
 # more information in the data (in the likelihood) means a more narrow posterior distribution. 
 
 set.seed(123) # initiate random number generator for reproducability
@@ -228,7 +242,8 @@ print(fit_many_obs)
 plot(fit_few_obs)
 plot(fit_many_obs)
 
-# We extract the posterior density for the slope `b[2]` and see how the posterior changes with size of the data.
+# We extract the posterior density for the slope `b[2]` 
+# and see how the posterior changes with size of the data.
 # (More on handling the posterior distribution tomorrow)
 
 posterior=as.matrix(fit)
@@ -244,5 +259,6 @@ par(mfrow=c(1,1))
 plot(density_1, xlim=c(0.5,2.5), ylim=c(0,4), main="slope b[2]")
 lines(density_few_obs, col="red")
 lines(density_many_obs, col="blue")
-legend("topleft", bty="n", legend=c("few obs","med obs","many obs"), lty=c(1,1,1), col=c("red","black","blue"))
+legend("topleft", bty="n", legend=c("few obs","med obs","many obs"), 
+       lty=c(1,1,1), col=c("red","black","blue"))
 

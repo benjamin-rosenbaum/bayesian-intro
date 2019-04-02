@@ -13,7 +13,8 @@ options(mc.cores = 3)
 #------------------------------------------------------------------------------
 # statistical model 
 #------------------------------------------------------------------------------
-# Suppose we have measurements of a continuous variable in 2 groups, e.g. individual body masses in 2 populations.
+# Suppose we have measurements of a continuous variable in 2 groups,
+# e.g. individual body masses in 2 populations.
 # We want to test if both groups have a different mean.
 # statistical model:
 # y1_i ~ normal(mu_1, sigma) i=1,...,n1
@@ -97,8 +98,10 @@ plot(fit)
 plot(As.mcmc.list(fit)) # from coda package
 
 
-# To answer our research questions, we look at the posterior distribution of $\delta=\mu_2-\mu_1$.
-# First, we convert the posterior into a matrix. Each row represents a sample from the posterior distribution.
+# To answer our research questions, we look at the posterior distribution 
+# of $\delta=\mu_2-\mu_1$.
+# First, we convert the posterior into a matrix. 
+# Each row represents a sample from the posterior distribution.
 
 posterior=as.matrix(fit)
 
@@ -108,7 +111,8 @@ head(posterior)
 correlationPlot(posterior[, 1:3], thin=1)
 
 # Now we compute the distribution of differences. 
-# The estimated mean difference in populations is 1.20 with a standard deviation (uncertainty) of 0.22.
+# The estimated mean difference in populations is 1.20 
+# with a standard deviation (uncertainty) of 0.22.
 # We compute the posterior probability of \delta being postitive given the data P(\delta>0|y): 
 # We count the number the event occurs and divide by the number of samples. 
 # Given the data, we are 100% sure that \delta>0, i.e. \mu_1 < \mu_2
@@ -187,7 +191,8 @@ data = list(y=df$y,
             group=df$group,
             n=nrow(df))
 
-# Note that the factorial group is an integer (1 or 2), so we can use it as an index in the Stan model.
+# Note that the factorial group is an integer (1 or 2), 
+# so we can use it as an index in the Stan model.
 
 # The statistical model reads:
 # y_i ~ normal(mu_group_i, sigma)
@@ -235,11 +240,13 @@ print(fit_alternative, digits=3, probs=c(0.025, 0.975))
 # "classical" data format, "classical" model formulation with dummy coding
 #------------------------------------------------------------------------------
 
-# Again, we code the data a little differently. Same as above, but group=0 for population 1 and group=1 for population 2.
+# Again, we code the data a little differently. 
+# Same as above, but group=0 for population 1 and group=1 for population 2.
 # This is known as dummy coding and the statistical model reads
 # y_i ~ normal(mu + delta*group_i, sigma)
 # Here, mu is a single value and decribes the mean of population 1 (group=0),
-# delta is the "effect" of population 2 compared to population 1, the mean of population 2 is mu + delta (group=1)
+# delta is the "effect" of population 2 compared to population 1, 
+# the mean of population 2 is mu + delta (group=1)
 
 df = data.frame(y=c(y.1,y.2), group=c(rep(0,n.1),rep(1,n.2))) # now group1=0, group2=1
 
