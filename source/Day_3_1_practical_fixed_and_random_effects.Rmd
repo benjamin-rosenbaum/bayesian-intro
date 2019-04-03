@@ -22,7 +22,7 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-setwd("~/Desktop/teaching Bayes")
+setwd("~/git/bayesian-intro/")
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) 
@@ -37,7 +37,7 @@ It contains information on the lifespan (`Longevity`) of male fruitflies dependi
 Sexual activity was experimentally manipulated by different numbers of pregnant or virgin female fruitflies (`CompanionNumber`).
 
 ```{r}
-df = read.csv("data/FruitflyDataReduced.csv")
+df = read.csv("~/git/bayesian-intro/data/FruitflyDataReduced.csv")
 head(df)
 str(df)
 
@@ -254,7 +254,7 @@ points(summary_partpool[1:5, "97.5%"], pch="-", col="red", cex=2)
 
 abline(h=mean(df$Longevity), col="grey")
 
-legend("topright", legend=c("no pooling","partial pooling"), pch=c("+","+"), col=c("red","blue"), bty="n")
+legend("topright", legend=c("no pooling","partial pooling"), pch=c("+","+"), col=c("blue","red"), bty="n")
 ```
 
 The difference between "no pooling" and "partial pooling" estimates is that extreme values tend to be pulled towards the joint mean by partial pooling (**shrinkage**).

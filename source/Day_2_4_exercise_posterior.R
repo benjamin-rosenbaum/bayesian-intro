@@ -76,6 +76,11 @@ model {
   c ~ normal(0, 10);
   sigma ~ normal(0, 10);
   // likelihood
+
+// for (i in 1:n){
+//  y[i] ~ normal(a + b*x[i] + c * x[i] * x[i] , sigma);
+//}
+
   y ~ normal(a + b*x + c * x .* x , sigma);
 }
 '
@@ -104,7 +109,7 @@ stan_model_quad = stan_model(model_code=stan_code_quad)
 fit.2  = sampling(stan_model_quad,
                 data=data,
                 chains=3,
-                iter=2000,
+                iter=3000,
                 warmup=1000
 )
 

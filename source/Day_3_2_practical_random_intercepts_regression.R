@@ -9,9 +9,11 @@ set.seed(123) # initiate random number generator for reproducability
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) 
 
-# In the previous model, we just fitted mean values to groups and there was still some unexplained variation.
+# In the previous model, we just fitted mean values to groups 
+# and there was still some unexplained variation.
 # Here, we will add a continuous predictor (covariate).
-# Specifically, for the same dataset of fruitfly longevity and sexual activity, we add the covariate individual body size.
+# Specifically, for the same dataset of fruitfly longevity and sexual activity, 
+# we add the covariate individual body size.
 # Lifespan is assumed to be positively correlated with body size.
 
 #------------------------------------------------------------------------------
@@ -24,7 +26,9 @@ str(df)
 
 plot(df$Thorax, df$Longevity, col=as.factor(df$CompanionNumber))
 
-# Note that the range of x-values (body size) is far away from zero. This makes intercepts on regression hard to interpret.
+# Note that the range of x-values (body size) is far away from zero. 
+# This makes intercepts on regression hard to interpret.
+# (what is the longevity of a fruitfly with zero body size?)
 # We will use normalized (zscore) predictor values instead.
 
 df$Thorax.norm = as.numeric(scale(df$Thorax))
@@ -55,14 +59,19 @@ data = list(y = df$Longevity,
 #------------------------------------------------------------------------------
 
 # We will fit linear regression lines to each group ("CompanionNumber) as follows:
+
 # y_i ~ normal(a[group_i]+b*x_i, sigma) i=1,...,n (n observations)
 # a_j ~ normal(mu_a, sigma_a) j=1,...,m (m groups)
-# Here, a_j is a group-level intercept, which are allowed to vary (partial pooling). (Analogue to mu_j in the previous example)
+
+# Here, a_j is a group-level intercept, which are allowed to vary (partial pooling). 
+# (Analogue to mu_j in the previous example)
 # But we assume identical slope b for all groups (complete pooling).
-# So this is a random intercepts linear regression, lm-formulation would be "y ~ (1|group) + x".
+# So this is a random intercepts linear regression, 
+# lm-formulation would be "y ~ (1|group) + x".
 # The approach is also similar to frequentist ANCOVA.
 
-# The Stan code differs from the previous model by adding the covariate x and parameter slope b
+# The Stan code differs from the previous model by adding 
+# the covariate x and parameter slope b
 # (and renaming mu to a, that's it!)
 
 stan_code_partial = '
@@ -115,7 +124,8 @@ plot(fit_partial)
 
 posterior=as.matrix(fit_partial)
 
-# As before, we can look at the individual differences of intercepts between groups ("contrasts").
+# As before, we can look at the individual differences 
+# of intercepts between groups ("contrasts").
 # E.g., the posterior distribution of a4-a5
 
 contrast = posterior[,"a[4]"]-posterior[,"a[5]"]
@@ -147,7 +157,8 @@ for (i in 1:5){
 
   y.cred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
   for(j in 1:nrow(posterior)){
-    # column i in posterior corresponds to a_i, alternatively reference by name: posterior[j,paste0("a[",i,"]")]
+    # column i in posterior corresponds to a_i, alternatively reference by name: 
+    # posterior[j,paste0("a[",i,"]")]
     y.cred[j, ] = posterior[j,i] + posterior[j,"b"]*x.pred 
   }
 

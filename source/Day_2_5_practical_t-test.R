@@ -201,7 +201,7 @@ data = list(y=df$y,
 stan_code_alternative = '
 data {
   int n;
-  real y[n];
+  real y[n]; // vector[n] y;
   int group[n];
 }
 parameters {
@@ -214,7 +214,7 @@ model {
   sigma ~ normal(0, 10);
   // likelihood
   for(i in 1:n){
-    y[i] ~ normal(mu[group[i]], sigma);
+    y[i] ~ normal(mu[ group[i] ] , sigma);
   }
 }
 generated quantities{

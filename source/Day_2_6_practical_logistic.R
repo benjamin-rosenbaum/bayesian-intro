@@ -38,7 +38,7 @@ n = 50
 x = sort(runif(n, 0, 1))
 
 a = -2
-b = 5
+b = 6
 
 p = inv.logit(a+b*x)
 
@@ -46,7 +46,7 @@ y = rbinom(n=n, size=1, prob=p)
 
 par(mfrow=c(1,1))
 plot(x,y)
-lines(x,p, lty=2)
+lines(x,p, lty=2, col="red")
 
 #------------------------------------------------------------------------------
 # straightforward model
@@ -72,7 +72,7 @@ model {
   b ~ normal(0, 10);
   // likelihood
   for(i in 1:n){
-    p[i] = inv_logit(a+b*x[i]);
+    p[i] = inv_logit( a+b*x[i] );
     y[i] ~ bernoulli(p[i]);
   }
 }
@@ -85,7 +85,7 @@ stan_model = stan_model(model_code=stan_code)
 fit  = sampling(stan_model,
                 data=data,
                 chains=3,
-                iter=2000,
+                iter=3000,
                 warmup=1000
 )
 
@@ -104,10 +104,12 @@ correlationPlot(posterior[, 1:2], thin=1)
 # predictions 
 #------------------------------------------------------------------------------
 
-# First, we generate credible intervals for the determinstic model (for p). (90%, but choose as you like)
-# later, we generate prediction intervals for the data (for y) using also the stochastic part.
+# First, we generate credible intervals for the determinstic model (for p). 
+# (90%, but choose as you like)
+# later, we generate prediction intervals for the data (for y) 
+# using also the stochastic part.
 
-x.pred = seq(from=0, to=1, by=0.01)
+x.pred = seq(from=-1, to=2, by=0.01)
 p.pred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
 
 for(i in 1:nrow(posterior)){
@@ -119,7 +121,7 @@ for(i in 1:100){
   lines(x.pred, p.pred[i, ], col=adjustcolor("red", alpha.f=0.3))
 }
 
-plot(x,y)
+plot(x,y, xlim=c(-1,2))
 
 p.pred.mean = apply(p.pred, 2, function(x) mean(x)) 
 lines(x.pred, p.pred.mean, col="red", lwd=2)
@@ -136,7 +138,7 @@ lines(x.pred, p.pred.q95, col="red", lwd=2, lty=2)
 
 y.pred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
 for(i in 1:nrow(posterior)){
-  y.pred[i, ] = rbinom(n=length(x.pred), size=1, p=inv.logit(posterior[i,"a"] + posterior[i,"b"]*x.pred))
+  y.pred[i, ] = rbinom(n=length(x.pred), size=1, p=inv.logit(posterior[i,"a"] + posterior[i,"b"]*x.pred) )
   # y.pred[i, ] = rbinom(n=length(x.pred), size=1, p=p.pred[i, ])
 }
 

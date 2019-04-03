@@ -131,7 +131,7 @@ bad mixing, model misspecified
   <font size="4">https://cran.r-project.org/web/packages/rstan/vignettes/rstan.html</font>  
   <font size="4">https://cran.r-project.org/web/packages/rstan/vignettes/stanfit-objects.html</font>  
 - `Stan` homepage:  
-  user's guide, language manual, case studies, tutorials
+  user's guide, language manual, case studies, tutorials  
   <font size="4">https://mc-stan.org/users/documentation/</font>  
 - `Stan` forums  
   <font size="4">https://discourse.mc-stan.org/</font>  
