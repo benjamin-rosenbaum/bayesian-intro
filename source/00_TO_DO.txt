@@ -1,0 +1,4 @@
+- center x-values in synthetic examples?
+- priors exercise: plot mean values on x-axis
+- priors exercise: use different prior mu (not 0)
+- flat priors turn likelihood into a distribution via MCMC
