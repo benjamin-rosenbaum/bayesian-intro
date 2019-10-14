@@ -2,7 +2,7 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-# setwd("~/Desktop/teaching Bayes")
+setwd("~/Desktop/teaching Bayes")
 
 # Aim: learn what a random effect is.
 # Learn about hierarchical levels of parameters. 

@@ -1,6 +1,6 @@
 rm(list=ls())
 library(manipulate)
-
+ 
 set.seed(123) # initiate random number generator for reproducability
 
 #------------------------------------------------------------------------------

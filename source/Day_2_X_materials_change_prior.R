@@ -155,7 +155,7 @@ par(mfrow=c(2,2), oma=rep(0.1, 4), mar=rep(1,4))
 x=seq(-10,10, by=0.01)
 
 plot(density_1, col="purple", xlim=c(-1,2), ylim=c(0,2.5), lwd=2, main="flat prior", xaxt="n", yaxt="n")
-lines(density_1, col="red", xlim=c(-1,2), lwd=2)
+lines(density_1, col="red", xlim=c(-1,2), lwd=2, lty=2)
 lines(x, dnorm(x, mean=0, sd=10), col="blue", lwd=2)
 
 legend("topleft",legend=c("prior", "likelihood", "posterior"), bty="n", lty=c(1,1,1), lwd=c(2,2,2), col=c("blue","red","purple"))

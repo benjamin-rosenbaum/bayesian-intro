@@ -1,7 +1,7 @@
 ---
 title: "2.8 Practical: nonlinear model - functional response"
 author: "Benjamin Rosenbaum"
-date: "April 2, 2019"
+date: "October 22, 2019"
 output: html_document
 ---
 
@@ -58,7 +58,8 @@ oringinal data from: Vucic‐Pestic, O. , Rall, B. C., Kalinkat, G. and Brose, U
 In repeated feeding trials with varying number of initial prey, the number of eaten prey was counted
 
 ```{r}
-df = read.csv("https://datadryad.org/bitstream/handle/10255/dryad.181841/data_vucic-pestic_manual.csv")
+# df = read.csv("https://datadryad.org/bitstream/handle/10255/dryad.181841/data_vucic-pestic_manual.csv")
+df = read.csv("data/data_vucic-pestic_manual.csv")
 head(df)
 
 plot(jitter(df[,1]), jitter(df[,2]),xlab="N_0", ylab="N_eaten")

@@ -353,6 +353,7 @@ abline(0,0)
 # Please **never** do that! In Bayesian stats, everything is a distribution, also the predictions. 
 # For simple linear models, the mean of predictions can be equal to the predictions using the mean parameters.
 # This is not the case for more complex models!
+# This phenomenon is called Jensen's inequality.
 
 print(fit)
 summary.fit = summary(fit)$summary
@@ -361,8 +362,10 @@ summary.fit
 
 plot(df)
 abline(summary.fit["a","mean"], summary.fit["b","mean"], col="red", lwd=2)
-points(x.pred,y.cred.mean, col="red", pch="+")
+points(x.pred,y.cred.mean, col="blue", pch="+")
 
 legend("topleft", legend=c("prediction using mean parameters (WRONG!)","means of predictions"), bty="n",
-       lty=c(1,NA), pch=c(NA,"+"), col=c("red","red"), lwd=c(2,2))
+       lty=c(1,NA), pch=c(NA,"+"), col=c("red","blue"), lwd=c(2,2))
+
+# (However, in this linear regression, both are the same)
 

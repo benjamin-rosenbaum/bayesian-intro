@@ -1,7 +1,7 @@
 ---
 title: "2.2 Exercise: priors"
 author: "Benjamin Rosenbaum"
-date: "April 2, 2019"
+date: "October 22, 2019"
 output: html_document
 ---
 

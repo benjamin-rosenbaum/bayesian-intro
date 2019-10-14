@@ -3,7 +3,7 @@ library(rstan)
 library(coda)
 library(BayesianTools)
 # setwd("~/Desktop/teaching Bayes")
-
+ 
 set.seed(123) # initiate random number generator for reproducability
 
 rstan_options(auto_write = TRUE)

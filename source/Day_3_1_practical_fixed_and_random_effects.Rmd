@@ -1,7 +1,7 @@
 ---
 title: "3.1 Practical: hierarchical models"
 author: "Benjamin Rosenbaum"
-date: "April 3, 2019"
+date: "October 23, 2019"
 output: html_document
 ---
 

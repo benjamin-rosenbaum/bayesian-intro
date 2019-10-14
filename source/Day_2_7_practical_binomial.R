@@ -147,3 +147,4 @@ lines(x.pred, y.pred.q95, col="blue", lwd=2, lty=2)
 
 y.succ.fail = cbind(y, 4-y) # 1st column successes, 2nd column fails (if there are y successes, there must be k-y fails)
 summary(glm(y.succ.fail~x, family=binomial(link="logit")))
+ 

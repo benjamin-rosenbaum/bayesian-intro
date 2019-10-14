@@ -3,7 +3,7 @@ library(rstan)
 library(coda)
 
 set.seed(123) # initiate random number generator for reproducability
-
+ 
 #------------------------------------------------------------------------------
 # generate data
 #------------------------------------------------------------------------------

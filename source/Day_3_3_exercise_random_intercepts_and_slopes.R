@@ -9,10 +9,7 @@ set.seed(123) # initiate random number generator for reproducability
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) 
 
-# In the previous model, we just fitted mean values to groups and there was still some unexplained variation.
-# Here, we will add a continuous predictor (covariate).
-# Specifically, for the same dataset of fruitfly longevity and sexual activity, we add the covariate individual body size.
-# Lifespan is assumed to be positively correlated with body size.
+# Extend the last model by including random slopes, too!
 
 #------------------------------------------------------------------------------
 # load data 

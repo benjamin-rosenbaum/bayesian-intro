@@ -307,4 +307,4 @@ lines(density_2, col="red")
 lines(density_3, col="blue")
 lines(density_4, col="green")
 legend("topright", legend=c("flat","N(0,10)","N(0,1)","N(0,0.1)"), bty="n", lwd=rep(2,4), col=c("black","red","blue","green"))
-
+ 

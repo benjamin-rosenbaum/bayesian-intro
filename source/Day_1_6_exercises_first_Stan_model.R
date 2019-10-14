@@ -261,4 +261,4 @@ lines(density_few_obs, col="red")
 lines(density_many_obs, col="blue")
 legend("topleft", bty="n", legend=c("few obs","med obs","many obs"), 
        lty=c(1,1,1), col=c("red","black","blue"))
-
+ 

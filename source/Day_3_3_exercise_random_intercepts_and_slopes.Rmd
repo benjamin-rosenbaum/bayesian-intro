@@ -1,7 +1,7 @@
 ---
 title: "3.3 Exercise: random intercepts and slopes regression"
 author: "Benjamin Rosenbaum"
-date: "April 3, 2019"
+date: "October 23, 2019"
 output: html_document
 ---
 

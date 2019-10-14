@@ -1,7 +1,7 @@
 ---
 title: "2.1: Priors"
 author: "Benjamin Rosenbaum"
-date: "April 2, 2019"
+date: "October 22, 2019"
 output: ioslides_presentation
 ---
 

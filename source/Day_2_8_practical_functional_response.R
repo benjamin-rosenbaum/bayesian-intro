@@ -30,7 +30,8 @@ curve(a*x/(1+a*h*x), from=0, to=100,
 # oringinal data from: Vucic‐Pestic, O. , Rall, B. C., Kalinkat, G. and Brose, U. (2010), Allometric functional response model: body masses constrain interaction strengths. Journal of Animal Ecology, 79: 249-256. doi:10.1111/j.1365-2656.2009.01622.x
 # In repeated feeding trials with varying number of initial prey, the number of eaten prey was counted
 
-df = read.csv("https://datadryad.org/bitstream/handle/10255/dryad.181841/data_vucic-pestic_manual.csv")
+# df = read.csv("https://datadryad.org/bitstream/handle/10255/dryad.181841/data_vucic-pestic_manual.csv")
+df = read.csv("data/data_vucic-pestic_manual.csv")
 head(df)
 
 plot(jitter(df[,1]), jitter(df[,2]),xlab="N_0", ylab="N_eaten")

@@ -109,7 +109,7 @@ correlationPlot(posterior[, 1:2], thin=1)
 # later, we generate prediction intervals for the data (for y) 
 # using also the stochastic part.
 
-x.pred = seq(from=-1, to=2, by=0.01)
+x.pred = seq(from=0, to=1, by=0.01)
 p.pred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))
 
 for(i in 1:nrow(posterior)){
@@ -121,7 +121,7 @@ for(i in 1:100){
   lines(x.pred, p.pred[i, ], col=adjustcolor("red", alpha.f=0.3))
 }
 
-plot(x,y, xlim=c(-1,2))
+plot(x,y, xlim=c(0,1))
 
 p.pred.mean = apply(p.pred, 2, function(x) mean(x)) 
 lines(x.pred, p.pred.mean, col="red", lwd=2)
@@ -191,3 +191,4 @@ print(fit_2)
 # frequentist solution
 #------------------------------------------------------------------------------
 summary(glm(y~x, family=binomial(link="logit")))
+

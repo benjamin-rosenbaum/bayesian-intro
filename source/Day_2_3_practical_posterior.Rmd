@@ -1,7 +1,7 @@
 ---
 title: "2.3 Practical: posterior"
 author: "Benjamin Rosenbaum"
-date: "April 2, 2019"
+date: "October 22, 2019"
 output: html_document
 ---
 
@@ -424,6 +424,7 @@ Please **never** do that! In Bayesian stats, everything is a distribution, also 
 
 **This is not the case for more complex models!**
 
+This phenomenon is called [Jensen's inequality](https://en.wikipedia.org/wiki/Jensen%27s_inequality).
 
 ```{r}
 print(fit)
@@ -439,7 +440,7 @@ legend("topleft", legend=c("prediction using mean parameters (WRONG!)","means of
        lty=c(1,NA), pch=c(NA,"+"), col=c("red","blue"), lwd=c(2,2))
 ```
 
-
+(However, in this linear regression, both are the same)
 
 
 

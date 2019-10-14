@@ -3,7 +3,7 @@ library(rstan)
 library(coda)
 library(BayesianTools)
 setwd("~/Desktop/teaching Bayes")
-
+ 
 # set options to use parallelization to run several chains simultaneously
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) # number of CPU cores

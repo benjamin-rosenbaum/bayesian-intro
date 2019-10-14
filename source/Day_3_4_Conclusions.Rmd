@@ -1,7 +1,7 @@
 ---
 title: "3.4: Conclusions"
 author: "Benjamin Rosenbaum"
-date: "April 3, 2019"
+date: "October 23, 2019"
 output: ioslides_presentation
 ---
 
@@ -192,7 +192,7 @@ https://github.com/rmcelreath/statrethinking_winter2019
 
 ## Save the date!
 
-### 26 April, 10 am (Niche)
+### 15 November, 1 pm (Niche)
 
 - bring your own model!
 - briefly present your first model / work in progress / problem

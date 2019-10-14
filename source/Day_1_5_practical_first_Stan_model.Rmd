@@ -1,7 +1,7 @@
 ---
 title: "1.5 Practical: first Stan model"
 author: "Benjamin Rosenbaum"
-date: "April 1, 2019"
+date: "October 21, 2019"
 output: html_document
 ---
 

@@ -3,7 +3,7 @@ library(rstan)
 library(coda)
 library(BayesianTools)
 setwd("~/Desktop/teaching Bayes")
-
+ 
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) 
 
