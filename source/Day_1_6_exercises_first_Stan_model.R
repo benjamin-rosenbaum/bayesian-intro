@@ -39,7 +39,7 @@ data {
   vector[n] y;
 }
 parameters {
-  vector[2] b;  // real b[2];
+  vector[2] b;  // or: real b[2];
   real<lower=0> sigma;  
 }
 model {

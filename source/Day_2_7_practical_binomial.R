@@ -5,7 +5,6 @@ library(BayesianTools)
 library(boot)
 setwd("~/Desktop/teaching Bayes")
 
-
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) 
 

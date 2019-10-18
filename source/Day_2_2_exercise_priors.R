@@ -99,6 +99,7 @@ model {
   y ~ normal(b[1]+b[2]*x, sigma);
 }
 '
+
 stan_model_1 = stan_model(model_code=stan_code_1)
 stan_model_2 = stan_model(model_code=stan_code_2)
 stan_model_3 = stan_model(model_code=stan_code_3)
@@ -179,6 +180,7 @@ lines(density_2, col="red")
 lines(density_3, col="blue")
 lines(density_4, col="green")
 legend("topright", legend=c("flat","N(0,10)","N(0,1)","N(0,0.1)"), bty="n", lwd=rep(2,4), col=c("black","red","blue","green"))
+points(b,0, pch = 24, cex=2, col="black", bg="orange")
 
 #------------------------------------------------------------------------------
 set.seed(123) # initiate random number generator for reproducability
@@ -243,6 +245,7 @@ lines(density_2, col="red")
 lines(density_3, col="blue")
 lines(density_4, col="green")
 legend("topright", legend=c("flat","N(0,10)","N(0,1)","N(0,0.1)"), bty="n", lwd=rep(2,4), col=c("black","red","blue","green"))
+points(b,0, pch = 24, cex=2, col="black", bg="orange")
 
 #------------------------------------------------------------------------------
 set.seed(123) # initiate random number generator for reproducability
@@ -307,4 +310,5 @@ lines(density_2, col="red")
 lines(density_3, col="blue")
 lines(density_4, col="green")
 legend("topright", legend=c("flat","N(0,10)","N(0,1)","N(0,0.1)"), bty="n", lwd=rep(2,4), col=c("black","red","blue","green"))
- 
+points(b,0, pch = 24, cex=2, col="black", bg="orange")
+
