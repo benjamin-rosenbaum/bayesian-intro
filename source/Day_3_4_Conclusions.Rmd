@@ -190,6 +190,12 @@ knitr::include_graphics("pics/mcelreath.jpg")
 
 https://github.com/rmcelreath/statrethinking_winter2019
 
+## Resources: books
+
+```{r, out.height = "400px"}
+knitr::include_graphics("pics/lambert.png")
+```
+
 ## Save the date!
 
 ### 15 November, 1 pm (Niche)
