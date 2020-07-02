@@ -133,6 +133,8 @@ bad mixing, model misspecified
 - `Stan` homepage:  
   user's guide, language manual, case studies, tutorials  
   <font size="4">https://mc-stan.org/users/documentation/</font>  
+- `Stan` youtube channel:  
+   <font size="4">https://www.youtube.com/channel/UCwgN5srGpBH4M-Zc2cAluOA</font>
 - `Stan` forums  
   <font size="4">https://discourse.mc-stan.org/</font>  
 
@@ -195,6 +197,15 @@ https://github.com/rmcelreath/statrethinking_winter2019
 ```{r, out.height = "400px"}
 knitr::include_graphics("pics/lambert.png")
 ```
+
+## Theory consultation hour
+
+- Theory in Biodiversity Science group (TiBS) provides consultation in theory, maths and statistics. 
+- each Wednesday after the seminar
+- write me an email with a brief description of your problem   
+  benjamin.rosenbaum@idiv.de 
+
+
 
 ## Save the date!
 

@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-## What's wrong with max. likelihood?
+## What's "wrong" with max. likelihood?
 
 > - $p(y|\theta)$ is a probability function for the data $y$ given the parameters $\theta$ 
 > - Inference on parameters, e.g. $P(\theta>0)$, not straightforward possible using $p(y|\theta)$   
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = FALSE)
 > - We need $p(\theta|y)$ !
 
 
-## What's wrong with P-values? {.build}
+## What's "wrong" with P-values? {.build}
 
 > - $p(y|\theta)$ is a probability function for the data $y$ given the parameters $\theta$
 > - calculation of $P(\theta>0)$ or $P(\theta=0)$ not possible
@@ -92,13 +92,24 @@ $$p(\theta|y)\varpropto p(\theta)\cdot p(y|\theta)$$
 
 ## Excursion: some history
 
-![Thomas Bayes](pics/Thomas_Bayes_small.png) ![Pierre Laplace](pics/Pierre-Simon_Laplace_small.png) ![Ronald Fisher](pics/R_A_Fischer_small.png)
+<!-- ![Thomas Bayes](pics/Thomas_Bayes_small.png) ![Pierre Laplace](pics/Pierre-Simon_Laplace_small.png) ![Ronald Fisher](pics/R_A_Fischer_small.png) -->
 
-> - **1700s** Bayes, Laplace
-> - **early 1900s** Fisher: frequentism, maximum likelihood
-> - **mid -- late 1900s** MCMC algorithms (Metropolis-Hastings, Gibbs sampling, Hamiltonian MC)
-> - **2000s** computational methods for MCMC  
-    (BUGS, JAGS, Stan, ...)
+<!-- > - **1700s** Bayes, Laplace -->
+<!-- > - **early 1900s** Fisher: frequentism, maximum likelihood -->
+<!-- > - **mid -- late 1900s** MCMC algorithms (Metropolis-Hastings, Gibbs sampling, Hamiltonian MC) -->
+<!-- > - **2000s** computational methods for MCMC   -->
+<!--     (BUGS, JAGS, Stan, ...) -->
+
+> - **1700s.** Bayes' theorem, Laplace formalized it 
+> - **early 1800s.** Gauß: least squares, regression
+> - **late 1800s to early 1900s.** modern statistics  
+Galton, Pearson, Fisher, ... :  
+design of experiments, hypothesis testing, max likelihood  
+frequentism usurped Bayesian stats  
+> - **mid to late 1900s.** MCMC algorithms
+> - **2000s.** computational tools for MCMC  
+(BUGS, JAGS, Stan, ...)
+
 
 ## Posterior: local or global? {.build}
 
@@ -209,7 +220,22 @@ https://chi-feng.github.io/mcmc-demo/app.html#RandomWalkMH,banana
 
 ![](pics/MCMC_example_small.png)
 
+## Why go Bayesian? {.build}
+
+Philosophical answer:
+
+- **Frequentism** assumes true and fixed underlying parameters.  
+- Data are just a sample of the "true" statistical model.
+
+<!-- test -->
+
+- **Bayesian** stats embraces uncertainty.
+- Observed data are given, model parameters uncertain.
+
+
 ## Why go Bayesian?
+
+Practical answer:
 
 > - Fit complex models with lots of parameters.
 > - Full transparency and control over your model and parameters.

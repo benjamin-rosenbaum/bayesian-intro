@@ -29,6 +29,19 @@ knitr::opts_chunk$set(echo = FALSE)
 - resources
 - summary 
 
+## Goals
+
+- think in terms of: model, data, parameters
+- building blocks of statistics 
+- not be intimidated by Bayesian stats
+- understand basic examples
+- write code in Stan
+- interpret model output
+- **build your own models**
+
+## Survey
+
+Which statistical methods / models have you used before?
 
 ## Terminology
 
@@ -43,14 +56,6 @@ knitr::opts_chunk$set(echo = FALSE)
 - know your distribution!
     https://ben18785.shinyapps.io/distribution-zoo/
 
-## Goals
-
-- think in terms of: model, data, parameters
-- building blocks of statistics 
-- not be intimidated by Bayesian stats
-- understand basic examples
-- interpret model output
-- **build your own models**
 
 
 
