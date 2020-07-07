@@ -136,7 +136,13 @@ bad mixing, model misspecified
 - `Stan` youtube channel:  
    <font size="4">https://www.youtube.com/channel/UCwgN5srGpBH4M-Zc2cAluOA</font>
 - `Stan` forums  
-  <font size="4">https://discourse.mc-stan.org/</font>  
+  <font size="4">https://discourse.mc-stan.org/</font>   
+- Michael Betancourt's writings, e.g.      
+  <font size="4">https://betanalpha.github.io/assets/case_studies/stan_intro.html</font>  
+- `Stan` ecology community   
+  <font size="4">https://stanecology.github.io/</font>  
+
+
 
 ## Resources: R packages
   
