@@ -1,6 +1,6 @@
 # Introduction to Bayesian statistics
 
-3 day course: October 21 - October 23 2019  
+3 day course: October 19 - October 21 2020  
 German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig  
 benjamin.rosenbaum@idiv.de  
 
