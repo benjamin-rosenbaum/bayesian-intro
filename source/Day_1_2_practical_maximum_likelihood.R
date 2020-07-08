@@ -74,18 +74,24 @@ prod(L)
 # visualize likelihood function of all datapoints for given parameters \mu and \sigma
 # you can play around with mu and sigma. 
 # which combination maximizes likelihood of all datapoints at once?
-curve.data <- function(mean, sd)
+curve.data <- function(mean, sd, y)
 {
+  # plot curve
   curve(dnorm(x, mean=mean, sd=sd), from=-4, to=6, 
         xlab="y", ylab="p(y)", ylim=c(0, 0.6))
+  # plot lines for all datapoints
   for(i in 1:n){
     lines(c(y[i],y[i]),c(0,dnorm(x=y[i], mean=mean, sd=sd)))
   }
+  # plot NLL value as text
+  L = dnorm(x=y, mean=mean, sd=sd)
+  NLL = -sum(log(L))
+  text(-2,0.5, paste("NLL=",round(NLL,3)) )
 }
 
-curve.data(0,1)
+curve.data(0,1,y)
 
-manipulate(curve.data(mean, sd), 
+manipulate(curve.data(mean, sd, y), 
            mean=slider(-3, 3, step=0.1, initial=0), 
            sd=slider(0.1,4, step=0.1, initial=1) )
 

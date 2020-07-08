@@ -4,7 +4,7 @@
 German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig  
 benjamin.rosenbaum@idiv.de  
 
-## Day 1
+## Day 1 
 
 [1 - Lecture: Introduction](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_1_Intro.html)
 
@@ -18,7 +18,7 @@ benjamin.rosenbaum@idiv.de
 
 [6 - Exercise: my first Stan model](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_6_exercises_first_Stan_model.html)
 
-## Day 2
+## Day 2 
 
 [1 - Lecture: Priors](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_1_Priors.html)
 
@@ -38,7 +38,7 @@ benjamin.rosenbaum@idiv.de
 
 [9 - Practical: Logistic growth](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_9_practical_logistic_growth.html)
 
-## Day 3
+## Day 3 
 
 [1 - Practical: Fixed and random effects](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_1_practical_fixed_and_random_effects.html)
 
