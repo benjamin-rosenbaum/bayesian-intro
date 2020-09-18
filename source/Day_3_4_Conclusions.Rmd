@@ -204,6 +204,12 @@ https://github.com/rmcelreath/statrethinking_winter2019
 knitr::include_graphics("pics/lambert.png")
 ```
 
+## Resources: books
+
+```{r, out.height = "400px"}
+knitr::include_graphics("pics/gelman_hill_vehtari.jpg")
+```
+
 ## Theory consultation hour
 
 - Theory in Biodiversity Science group (TiBS) provides consultation in theory, maths and statistics. 
