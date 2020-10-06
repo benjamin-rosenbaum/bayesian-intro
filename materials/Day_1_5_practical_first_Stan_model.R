@@ -180,7 +180,7 @@ plot(posterior)
 plot(posterior[, c("a", "b")])
 plot(posterior[, 1:2])
 
-# The posterior distribution is multidimensional (here, d=2). 
+# The posterior distribution is multidimensional (here, d=3). 
 # So visualization of the whole posterior is limited, 
 # but we can at least look at the pairwise 2d marginals
 
@@ -199,7 +199,6 @@ stan_trace(fit)
 stan_hist(fit)
 stan_dens(fit)
 stan_scat(fit, pars=c("a","b"))
-
 
 #------------------------------------------------------------------------------
 # just for demonstration: maximum a posteriori estimation 

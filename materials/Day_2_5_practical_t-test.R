@@ -66,16 +66,18 @@ data {
 parameters {
   real mu1;  
   real mu2;  
-  real<lower=0> sigma;
+  real<lower=0> sigma1;
+  real<lower=0> sigma2;
 }
 model {
   // priors
   mu1 ~ normal(0, 10);
   mu2 ~ normal(0, 10);
-  sigma ~ normal(0, 10);
+  sigma1 ~ normal(0, 10);
+  sigma2 ~ normal(0, 10);
   // likelihood
-  y1 ~ normal(mu1, sigma);
-  y2 ~ normal(mu2, sigma);
+  y1 ~ normal(mu1, sigma1);
+  y2 ~ normal(mu2, sigma2);
 }
 '
 
@@ -148,10 +150,11 @@ model {
   // priors
   mu1 ~ normal(0, 10);
   mu2 ~ normal(0, 10);
-  sigma ~ normal(0, 10);
+  sigma1 ~ normal(0, 10);
+  sigma2 ~ normal(0, 10);
   // likelihood
-  y1 ~ normal(mu1, sigma);
-  y2 ~ normal(mu2, sigma);
+  y1 ~ normal(mu1, sigma1);
+  y2 ~ normal(mu2, sigma2);
 }
 generated quantities{
   real delta;

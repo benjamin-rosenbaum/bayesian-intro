@@ -6,7 +6,7 @@ options(mc.cores = 3)
 
 # We code 4 versions of the linear regression model. 
 # Each model has a different prior distribution for the slope b[2].
-# - model 1: flat prior. nor prior information on b[2]=slope given
+# - model 1: flat prior. no prior information on b[2]=slope given
 # - model 2: b[2]~normal(0,10)
 # - model 3: b[2]~normal(0,1)
 # - model 4: b[2]~normal(0,0.1)

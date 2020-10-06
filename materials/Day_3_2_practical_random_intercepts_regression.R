@@ -3,7 +3,10 @@ library(rstan)
 library(coda)
 library(BayesianTools)
 # setwd("~/Desktop/teaching Bayes")
- 
+
+# remotes::install_github("allisonhorst/palmerpenguins")
+library(palmerpenguins)
+
 set.seed(123) # initiate random number generator for reproducability
 
 rstan_options(auto_write = TRUE)
@@ -20,39 +23,41 @@ options(mc.cores = 3)
 # load data 
 #------------------------------------------------------------------------------
 
-df = read.csv("~/git/bayesian-intro/data/FruitflyDataReduced.csv")
+df = penguins
 head(df)
 str(df)
 
-plot(df$Thorax, df$Longevity, col=as.factor(df$CompanionNumber))
+df = df[complete.cases(df), ]
+
+plot(df$body_mass_g, df$bill_length_mm, col=as.factor(df$species))
 
 # Note that the range of x-values (body size) is far away from zero. 
 # This makes intercepts on regression hard to interpret.
 # (what is the longevity of a fruitfly with zero body size?)
 # We will use normalized (zscore) predictor values instead.
 
-df$Thorax.norm = as.numeric(scale(df$Thorax))
-df$group = as.integer(df$CompanionNumber)
-plot(df$Thorax.norm, df$Longevity, col=as.factor(df$CompanionNumber))
+df$body_mass_g_norm = as.numeric(scale(df$body_mass_g))
+df$group = as.integer(df$species)
+plot(df$body_mass_g_norm, df$bill_length_mm, col=as.factor(df$group))
 
 # as.integer(<factor>) codes groups in alphabetical order
-table(df$group, df$CompanionNumber)
+table(df$group, df$species)
 
-par(mfrow=c(2,3))
-for (i in 1:5){
+par(mfrow=c(3,1))
+for (i in 1:3){
   df.sub=subset(df, df$group==i)
-  plot(df.sub$Thorax.norm,  df.sub$Longevity,
-       xlim=range(df$Thorax.norm),
-       ylim=range(df$Longevity),
-       main=levels(df$CompanionNumber)[i]
+  plot(df.sub$body_mass_g_norm,  df.sub$bill_length_mm,
+       xlim=range(df$body_mass_g_norm),
+       ylim=range(df$bill_length_mm),
+       main=levels(df$species)[i]
   )
 }
 
-data = list(y = df$Longevity,
-            x = df$Thorax.norm,
+data = list(y = df$bill_length_mm,
+            x = df$body_mass_g_norm,
             group = df$group,
             n = nrow(df),
-            n_group = 5)
+            n_group = 3)
 
 #------------------------------------------------------------------------------
 # partial pooling model 
@@ -128,7 +133,7 @@ posterior=as.matrix(fit_partial)
 # of intercepts between groups ("contrasts").
 # E.g., the posterior distribution of a4-a5
 
-contrast = posterior[,"a[4]"]-posterior[,"a[5]"]
+contrast = posterior[,"a[2]"]-posterior[,"a[3]"]
 
 par(mfrow=c(1,1))
 
@@ -143,16 +148,16 @@ abline(v=0, col="red", lwd=2)
 # and prediction intervals (for the data, including statistical part of the model).
 # (Here: 90% credible intervals)
 
-x.pred = seq(from=min(df$Thorax.norm), to=max(df$Thorax.norm), by=0.1)
+x.pred = seq(from=min(df$body_mass_g_norm), to=max(df$body_mass_g_norm), by=0.1)
 
-par(mfrow=c(2,3))
+par(mfrow=c(3,1))
 
-for (i in 1:5){
+for (i in 1:3){
   df.sub=subset(df, df$group==i)
-  plot(df.sub$Thorax.norm,  df.sub$Longevity,
-       xlim=range(df$Thorax.norm),
-       ylim=range(df$Longevity),
-       main=levels(df$CompanionNumber)[i]
+  plot(df.sub$body_mass_g_norm,  df.sub$bill_length_mm,
+       xlim=range(df$body_mass_g_norm),
+       ylim=range(df$bill_length_mm),
+       main=levels(df$species)[i]
   )
 
   y.cred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))

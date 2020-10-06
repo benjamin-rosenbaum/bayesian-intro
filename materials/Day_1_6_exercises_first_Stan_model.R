@@ -44,7 +44,7 @@ parameters {
 }
 model {
   // priors
-  b ~ normal(0, 10);
+  b ~ normal(0, 10); // b ~ normal({0, 1}, {10, 10});
   
   // b[1] ~ normal(0, 10);
   // b[2] ~ normal(0, 10);
@@ -106,7 +106,7 @@ model {
   sigma ~ normal(0, 10);
   // likelihood
   // for(i in 1:n){
-  //   y[i] ~ normal(b[1]+b[2]*x[i]+b[3]*x[i]^2, sigma);
+  //   y[i] ~ normal( b[1]+b[2]*x[i]+b[3]*x[i]^2 , sigma);
   // }
   y ~ normal(b[1] + b[2]*x + b[3] * x .* x, sigma);
 }
@@ -119,7 +119,7 @@ stan_model_2 = stan_model(model_code=stan_code_2)
 fit_2  = sampling(stan_model_2,
                 data=data,
                 chains=3,
-                iter=2000,
+                iter=10000,
                 warmup=1000
 )
 
