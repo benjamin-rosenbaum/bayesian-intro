@@ -2,7 +2,7 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-setwd("~/Desktop/teaching Bayes")
+# setwd("~/Desktop/teaching Bayes")
  
 # set options to use parallelization to run several chains simultaneously
 rstan_options(auto_write = TRUE)
@@ -11,7 +11,7 @@ options(mc.cores = 3) # number of CPU cores
 #------------------------------------------------------------------------------
 # generate data 
 #------------------------------------------------------------------------------
-set.seed(123) # initiate random number generator for reproducability
+set.seed(123) # initiate random number generator for reproducibility
 
 n=50
 

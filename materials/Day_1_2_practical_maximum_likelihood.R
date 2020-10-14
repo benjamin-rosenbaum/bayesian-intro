@@ -1,7 +1,7 @@
 rm(list=ls())
 library(manipulate)
  
-set.seed(123) # initiate random number generator for reproducability
+set.seed(123) # initiate random number generator for reproducibility
 
 #------------------------------------------------------------------------------
 # 1 generate data

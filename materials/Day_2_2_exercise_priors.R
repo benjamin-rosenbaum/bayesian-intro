@@ -183,7 +183,7 @@ legend("topright", legend=c("flat","N(0,10)","N(0,1)","N(0,0.1)"), bty="n", lwd=
 points(b,0, pch = 24, cex=2, col="black", bg="orange")
 
 #------------------------------------------------------------------------------
-set.seed(123) # initiate random number generator for reproducability
+set.seed(123) # initiate random number generator for reproducibility
 
 n=1000
 
@@ -248,7 +248,7 @@ legend("topright", legend=c("flat","N(0,10)","N(0,1)","N(0,0.1)"), bty="n", lwd=
 points(b,0, pch = 24, cex=2, col="black", bg="orange")
 
 #------------------------------------------------------------------------------
-set.seed(123) # initiate random number generator for reproducability
+set.seed(123) # initiate random number generator for reproducibility
 
 n=10
 

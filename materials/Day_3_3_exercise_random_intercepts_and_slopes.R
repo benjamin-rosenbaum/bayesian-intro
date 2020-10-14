@@ -4,10 +4,7 @@ library(coda)
 library(BayesianTools)
 # setwd("~/Desktop/teaching Bayes")
 
-# remotes::install_github("allisonhorst/palmerpenguins")
-library(palmerpenguins)
-
-set.seed(123) # initiate random number generator for reproducability
+set.seed(123) # initiate random number generator for reproducibility
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) 
@@ -18,28 +15,23 @@ options(mc.cores = 3)
 # load data 
 #------------------------------------------------------------------------------
 
-df = penguins
-head(df)
-str(df)
+df = read.csv("~/git/bayesian-intro/data/FruitflyDataReduced.csv")
+df$Thorax.norm = as.numeric(scale(df$Thorax))
+df$group = as.integer(df$CompanionNumber)
 
-df = df[complete.cases(df), ]
-
-df$body_mass_g_norm = as.numeric(scale(df$body_mass_g))
-df$group = as.integer(df$species)
-
-data = list(y = df$bill_length_mm,
-            x = df$body_mass_g_norm,
+data = list(y = df$Longevity,
+            x = df$Thorax.norm,
             group = df$group,
             n = nrow(df),
-            n_group = 3)
+            n_group = 5)
 
-par(mfrow=c(3,1))
-for (i in 1:3){
+par(mfrow=c(2,3))
+for (i in 1:5){
   df.sub=subset(df, df$group==i)
-  plot(df.sub$body_mass_g_norm,  df.sub$bill_length_mm,
-       xlim=range(df$body_mass_g_norm),
-       ylim=range(df$bill_length_mm),
-       main=levels(df$species)[i]
+  plot(df.sub$Thorax.norm,  df.sub$Longevity,
+       xlim=range(df$Thorax.norm),
+       ylim=range(df$Longevity),
+       main=levels(df$CompanionNumber)[i]
   )
 }
 
@@ -78,8 +70,8 @@ model {
   // priors
   mu_a ~ normal(0,100);
   mu_b ~ normal(0,10);
-  sigma_a ~ cauchy(0,1);
-  sigma_b ~ cauchy(0,1);
+  sigma_a ~ cauchy(0,10);
+  sigma_b ~ cauchy(0,10);
   for (j in 1:n_group){
     a[j] ~ normal(mu_a,sigma_a);
     b[j] ~ normal(mu_b,sigma_b);
@@ -108,15 +100,13 @@ fit_partial  = sampling(stan_model_partial,
                         chains=3,
                         iter=5000,
                         warmup=2000,
-                        control=list(adapt_delta=0.99)
+                        control=list(adapt_delta=0.999, max_treedepth=12)
 )
 
 print(fit_partial, digits=3, probs=c(0.025, 0.975))
 
 plot(fit_partial)
 # plot(fit_partial, pars="a")
-plot(fit_partial, pars="a")
-plot(fit_partial, pars="b")
 plot(As.mcmc.list(fit_partial)) # from coda package
 
 # pairs(fit_partial, pars=c("b","mu_b","sigma_b"))
@@ -130,16 +120,16 @@ posterior=as.matrix(fit_partial)
 # Again, we can generate predictions and compute credible intervals (for the deterministic part of the model)
 # (Here: 90% credible intervals)
 
-x.pred = seq(from=min(df$body_mass_g_norm), to=max(df$body_mass_g_norm), by=0.1)
+x.pred = seq(from=min(df$Thorax.norm), to=max(df$Thorax.norm), by=0.1)
 
-par(mfrow=c(3,1))
+par(mfrow=c(2,3))
 
-for (i in 1:3){
+for (i in 1:5){
   df.sub=subset(df, df$group==i)
-  plot(df.sub$body_mass_g_norm,  df.sub$bill_length_mm,
-       xlim=range(df$body_mass_g_norm),
-       ylim=range(df$bill_length_mm),
-       main=levels(df$species)[i]
+  plot(df.sub$Thorax.norm,  df.sub$Longevity,
+       xlim=range(df$Thorax.norm),
+       ylim=range(df$Longevity),
+       main=levels(df$CompanionNumber)[i]
   )
   
   y.cred = matrix(0, nrow=nrow(posterior), ncol=length(x.pred))

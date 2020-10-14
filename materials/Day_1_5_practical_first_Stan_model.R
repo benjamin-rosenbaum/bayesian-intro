@@ -139,7 +139,7 @@ fit  = sampling(stan_model,
 # But if n_eff was only a small fraction of n_total, 
 # i.e. 1%, this would indicate some problems with our model.
 # Rhat checks if all chains behave similarly, values close to one (<1.1) indicate good behavior.
-# The last "parameter" is the log posterior denstity, we will ignore it for now.
+# The last "parameter" is the log posterior density, we will ignore it for now.
 
 print(fit)
 
@@ -169,7 +169,7 @@ posterior = As.mcmc.list(fit)
 
 # Plotting this object shows us traceplots of the chains 
 # and marginal density functions of the posterior distribution.
-# The chains are plotted in different colours. 
+# The chains are plotted in different colors. 
 # We also can visually inspect if all chains behave similarly.  
 # They should look like a "fat hairy caterpillar".
 
@@ -205,8 +205,8 @@ stan_scat(fit, pars=c("a","b"))
 #------------------------------------------------------------------------------
 
 # MCMC sampling globally explores the posterior distribution. 
-# Stan can also find the paramter combination that maximizes the posterior probability density function.
-# Similiar to maximum likelihood estimation (MLE), this is called maximum a posteriori (MAP).
+# Stan can also find the parameter combination that maximizes the posterior probability density function.
+# Similar to maximum likelihood estimation (MLE), this is called maximum a posteriori (MAP).
 # It just computes a point estimate, without confidence intervals / uncertainty / sd.
 
 map = optimizing(stan_model,

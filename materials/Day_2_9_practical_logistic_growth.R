@@ -2,7 +2,6 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-library(boot)
 setwd("~/Desktop/teaching Bayes")
  
 rstan_options(auto_write = TRUE)
@@ -45,7 +44,7 @@ curve(10/( 1+(10-1)/1 * exp(-2*x) ) , from=0, to=4, xlab="t", ylab="y(t)", main=
 #------------------------------------------------------------------------------
 # generate data 
 #------------------------------------------------------------------------------
-set.seed(123) # initiate random number generator for reproducability
+set.seed(123) # initiate random number generator for reproducibility
 
 n = 50
 t = 0:(n-1)
@@ -168,14 +167,15 @@ for (i in 1:n){
 }
 
 # stochastic model: y_i~normal(mu_i,sigma)
-# Even if the deterministic model ensures mu_i>0, the statistical model (normal distribution) allows negative predictions, while it should be bounded at zero.
+# Even if the deterministic model ensures mu_i>0, the statistical model (normal distribution) allows negative predictions, 
+# while it should be bounded at zero.
 # Also, the variation in the data seems to grow with y ("heteroscedasticity").
 
 # Next, we will try a more appropriate stochastic model (lognormal distribution)
 
 # y_i ~ lognormal( log(\mu_i), sigma ), or equivalently
 # log(y_i) ~ normal( log(\mu_i), sigma ),
-# so the logs of the (nonnegative) observations are normally distibuted. 
+# so the logs of the (nonnegative) observations are normally distributed. 
 # Note that mean and standard deviation are now defined on the log-scale
 
 #------------------------------------------------------------------------------

@@ -11,9 +11,9 @@ options(mc.cores = 3)
 # density-dependent feeding rate of the consumer. The number of prey individuals a predator can consume 
 # in a given time does not grow proportional with increasing prey availability, but reaches a saturation.
 # (A predator can only consume a limited number of prey in a given time.)
-# Mathematically, F(N) is parameterised by attack rate a and handling time h
+# Mathematically, F(N) is parameterized by attack rate a and handling time h
 # F(N) = a*N/(1+a*h*N)
-# a descibes the slope of the curve in the origin, while the saturation (maximum feeding rate) is given by 1/h.
+# a describes the slope of the curve in the origin, while the saturation (maximum feeding rate) is given by 1/h.
 # This is a nonlinear function and we can't use "lm()" to fit it.
 
 a=1

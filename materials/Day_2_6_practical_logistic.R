@@ -2,7 +2,7 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-library(boot)
+library(boot) # for logit function
 setwd("~/Desktop/teaching Bayes")
 
 set.seed(123) # initiate random number generator for reproducability

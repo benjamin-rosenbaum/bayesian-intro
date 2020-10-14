@@ -190,7 +190,7 @@ for(i in 1:100){
 
 # abline() is a fancy command for plotting lines, 
 # but if we want a more generalized approach (more complex models later), 
-# we have to code the deterministic model ourself.
+# we have to code the deterministic model ourselves.
 # x.pred is a vector of predictor values for which we want to make predictions
 # y.cred is a matrix that will contain all predictions. 
 # We call it "cred" because we will use it for computing 

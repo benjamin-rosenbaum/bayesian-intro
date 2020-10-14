@@ -2,16 +2,11 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-
-# remotes::install_github("allisonhorst/palmerpenguins")
-library(palmerpenguins)
-
 setwd("~/Desktop/teaching Bayes")
-
 
 # Aim: learn what a random effect is.
 # Learn about hierarchical levels of parameters. 
-# Bayesian statistics is great for hierearchical models!
+# Bayesian statistics is great for hierarchical models!
 # Think in terms of "no pooling", "partial pooling" and "complete pooling" of parameters
 # rather than "random effects" and "fixed effects".
 
@@ -28,21 +23,19 @@ options(mc.cores = 3)
 # Sexual activity was experimentally manipulated by 
 # different numbers of pregnant or virgin female fruitflies (CompanionNumber).
 
-df = penguins
+df = read.csv("~/git/bayesian-intro/data/FruitflyDataReduced.csv")
 head(df)
 str(df)
 
-df = df[complete.cases(df), ]
-
-boxplot(bill_length_mm ~ species, data=df,
-        ylab="bill length [mm]",
-        xlab="species",
+boxplot(Longevity ~ CompanionNumber, data=df,
+        ylab="Longevity",
+        xlab="Companions ID",
         col="grey")
 
-plot(0, 0, xlim =c(0.5,3.5), ylim = range(df$bill_length_mm), type = "n",
-     ylab="bill length [mm]",
-     xlab="species ID")
-points(bill_length_mm ~ jitter(as.numeric(species), factor=0.2), data=df)
+plot(0, 0, xlim =c(1,5), ylim = range(df$Longevity), type = "n",
+     ylab="Longevity",
+     xlab="Companions ID")
+points(Longevity ~ jitter(as.numeric(CompanionNumber), factor=0.2), data=df)
 
 # The following approach is similar to frequentist ANOVA.
 
@@ -71,10 +64,10 @@ points(bill_length_mm ~ jitter(as.numeric(species), factor=0.2), data=df)
 # to code the factorial variable "group",
 # so we can use it as an index.
 
-data = list(y = df$bill_length_mm,
-            group = as.integer(df$species),
+data = list(y = df$Longevity,
+            group = as.integer(df$CompanionNumber),
             n = nrow(df),
-            n_group = 3)
+            n_group = 5)
 
 data
 
@@ -128,7 +121,7 @@ plot(fit_nopool)
 
 posterior_nopool = as.matrix(fit_nopool)
 
-contrast = posterior_nopool[,"mu[3]"]-posterior_nopool[,"mu[2]"]
+contrast = posterior_nopool[,"mu[4]"]-posterior_nopool[,"mu[5]"]
 
 plot(density(contrast))
 abline(v=0, col="red", lwd=2)
@@ -204,8 +197,7 @@ fit_partpool  = sampling(stan_model_partpool,
                          data=data,
                          chains=3,
                          iter=2000,
-                         warmup=1000,
-                         control=list(adapt_delta=0.9)
+                         warmup=1000
 )
 
 print(fit_partpool, digits=3, probs=c(0.025, 0.975))
@@ -227,21 +219,21 @@ summary_nopool
 summary_partpool = summary(fit_partpool)$summary
 summary_partpool
 
-plot(0, 0, xlim =c(0.5,3.5), ylim = range(df$bill_length_mm), type = "n",
-     ylab="bill_length [mm]",
-     xlab="species")
-points(bill_length_mm ~ jitter(as.numeric(species), factor=0.2), data=df,
+plot(0, 0, xlim =c(1,5), ylim = range(df$Longevity), type = "n",
+     ylab="Longevity",
+     xlab="Companions ID")
+points(Longevity ~ jitter(as.numeric(CompanionNumber), factor=0.2), data=df,
        col="grey")
 
-points(summary_nopool[1:3, "mean"], pch="+", col="blue", cex=2)
-points(summary_nopool[1:3, "2.5%"], pch="-", col="blue", cex=2)
-points(summary_nopool[1:3, "97.5%"], pch="-", col="blue", cex=2)
+points(summary_nopool[1:5, "mean"], pch="+", col="blue", cex=2)
+points(summary_nopool[1:5, "2.5%"], pch="-", col="blue", cex=2)
+points(summary_nopool[1:5, "97.5%"], pch="-", col="blue", cex=2)
 
-points(summary_partpool[1:3, "mean"], pch="+", col="red", cex=2)
-points(summary_partpool[1:3, "2.5%"], pch="-", col="red", cex=2)
-points(summary_partpool[1:3, "97.5%"], pch="-", col="red", cex=2)
+points(summary_partpool[1:5, "mean"], pch="+", col="red", cex=2)
+points(summary_partpool[1:5, "2.5%"], pch="-", col="red", cex=2)
+points(summary_partpool[1:5, "97.5%"], pch="-", col="red", cex=2)
 
-abline(h=mean(df$bill_length_mm), col="grey")
+abline(h=mean(df$Longevity), col="grey")
 abline(h=summary_partpool["mu_total", "mean"], col="red")
 
 legend("topright", legend=c("no pooling","partial pooling"), pch=c("+","+"), col=c("blue","red"), bty="n")

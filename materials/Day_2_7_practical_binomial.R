@@ -2,8 +2,7 @@ rm(list=ls())
 library(rstan)
 library(coda)
 library(BayesianTools)
-library(boot)
-setwd("~/Desktop/teaching Bayes")
+library(boot) # for logit function
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = 3) 
@@ -94,7 +93,7 @@ str(posterior)
 # predictions 
 #------------------------------------------------------------------------------
 
-# First, we generate credible intervals for the determinstic model. (90%, but choose as you like)
+# First, we generate credible intervals for the deterministic model. (90%, but choose as you like)
 # The deterministic model is p = inv.logit(a+b*x), the probability of a successful trial.
 # But there are k=4 trials, so the expected value of successful trials is 4*p.
 # Later, we generate prediction intervals for the data (for y) using also the stochastic part.
@@ -122,6 +121,7 @@ lines(x.pred, y.cred.q05, col="red", lwd=2, lty=2)
 y.cred.q95 = apply(y.cred, 2, function(x) quantile(x, probs=0.95)) 
 lines(x.pred, y.cred.q95, col="red", lwd=2, lty=2)
 
+# true relationship with true parameters a and b 
 # lines(x.pred, 4*inv.logit(a+b*x.pred), lwd=2, lty=1, col="blue")
 
 # Now, we draw predicted data from the binomial distribution (k=4 trials) in the statistical model.
