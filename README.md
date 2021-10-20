@@ -12,7 +12,7 @@ Participants learn how to practically think in terms like data, model, likelihoo
 
 1 - Lecture: Introduction [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_1_Intro.html)
 
-2 - Practical: Maximum likelihood [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_2_practical_maximum_likelihood.html)
+2 - Practical: Maximum likelihood [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_2_practical_maximum_likelihood.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_2_practical_maximum_likelihood.pdf)
 
 3 - Lecture: Bayesian principles [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_3_Bayesian_principles.html)
 
@@ -32,7 +32,7 @@ Participants learn how to practically think in terms like data, model, likelihoo
 
 4 - Exercise: Posterior [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_4_exercise_posterior.html)
 
-5 - Practical: brms [htmlr](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_5_practical_brms.html)
+5 - Practical: brms [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_5_practical_brms.html)
 
 ## Day 3 
 
@@ -44,7 +44,7 @@ Participants learn how to practically think in terms like data, model, likelihoo
 
 4 - Practical: T-test (LM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_4_practical_t-test.html)
 
-## Day 3 
+## Day 4 
 
 1 - Practical: Fixed and random effects [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_1_practical_fixed_and_random_effects.html)
 
