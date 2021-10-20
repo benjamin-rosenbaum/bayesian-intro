@@ -1,6 +1,6 @@
 # Introduction to Bayesian statistics
 
-3 day course: November 2 - November 5 2021  
+4 day course: November 2 - November 5 2021  
 German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig  
 benjamin.rosenbaum@idiv.de  
 
@@ -18,39 +18,39 @@ Participants learn how to practically think in terms like data, model, likelihoo
 
 4 - Lecture: Stan - a probabilistic programming language [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_4_Stan.html)
 
-5 - Practical: my first Stan model [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_5_practical_first_Stan_model.html)
+5 - Practical: my first Stan model [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_5_practical_first_Stan_model.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_5_practical_first_Stan_model.pdf)
 
-6 - Exercise: my first Stan model [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_6_exercises_first_Stan_model.html)
+6 - Exercise: my first Stan model [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_6_exercises_first_Stan_model.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_1_6_exercises_first_Stan_model.pdf)
 
 ## Day 2 
 
 1 - Lecture: Priors [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_1_Priors.html)
 
-2 - Exercise: Priors [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_2_exercise_priors.html)
+2 - Exercise: Priors [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_2_exercise_priors.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_2_exercise_priors.pdf)
 
-3 - Practical: Posterior distribution [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_3_practical_posterior.html)
+3 - Practical: Posterior distribution [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_3_practical_posterior.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_3_practical_posterior.pdf)
 
-4 - Exercise: Posterior [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_4_exercise_posterior.html)
+4 - Exercise: Posterior [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_4_exercise_posterior.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_4_exercise_posterior.pdf)
 
-5 - Practical: brms [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_5_practical_brms.html)
+5 - Practical: brms [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_5_practical_brms.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_2_5_practical_brms.pdf)
 
 ## Day 3 
 
-1 - Practical: Multiple regression (LM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_1_practical_lm_multiple.html)
+1 - Practical: Multiple regression (LM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_1_practical_lm_multiple.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_1_practical_lm_multiple.pdf)
 
-2 - Practical: Logistic regression (GLM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_2_practical_logistic.html)
+2 - Practical: Logistic regression (GLM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_2_practical_logistic.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_2_practical_logistic.pdf)
 
-3 - Practical: Nonlinear regression (NLM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_3_practical_nonlinear.html)
+3 - Practical: Nonlinear regression (NLM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_3_practical_nonlinear.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_3_practical_nonlinear.pdf)
 
-4 - Practical: T-test (LM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_4_practical_t-test.html)
+4 - Practical: T-test (LM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_4_practical_t-test.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_3_4_practical_t-test.pdf)
 
 ## Day 4 
 
-1 - Practical: Fixed and random effects [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_1_practical_fixed_and_random_effects.html)
+1 - Practical: Fixed and random effects [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_1_practical_fixed_and_random_effects.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_1_practical_fixed_and_random_effects.pdf)
 
-2 - Practical: Random intercepts regression [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_2_practical_random_intercepts_regression.html)
+2 - Practical: Random intercepts regression [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_2_practical_random_intercepts_regression.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_2_practical_random_intercepts_regression.pdf)
 
-3 - Exercise: Random intercepts and slopes [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_3_exercise_random_intercepts_and_slopes.html)
+3 - Exercise: Random intercepts and slopes [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_3_exercise_random_intercepts_and_slopes.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_3_exercise_random_intercepts_and_slopes.pdf)
 
 4 - Lecture: Conclusions [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_4_Conclusions.html)
 
