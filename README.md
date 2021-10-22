@@ -50,7 +50,7 @@ Participants learn how to practically think in terms like data, model, likelihoo
 
 2 - Practical: Random intercepts regression [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_2_practical_random_intercepts_regression.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_2_practical_random_intercepts_regression.pdf)
 
-3 - Exercise: Random intercepts and slopes [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_3_exercise_random_intercepts_and_slopes.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_3_exercise_random_intercepts_and_slopes.pdf)
+3 - Exercise: Random intercepts and slopes [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_3_exercise_random_slopes_regression.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_3_exercise_random_slopes_regression.pdf)
 
 4 - Lecture: Conclusions [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_4_Conclusions.html)
 
