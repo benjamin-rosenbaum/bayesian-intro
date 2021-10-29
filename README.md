@@ -46,7 +46,7 @@ Participants learn how to practically think in terms like data, model, likelihoo
 
 ## Day 4 
 
-1 - Practical: Fixed and random effects [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_1_practical_fixed_and_random_effects.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_1_practical_fixed_and_random_effects.pdf)
+1 - Practical: Fixed and random effects (LMM) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_1_practical_fixed_and_random_effects.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_1_practical_fixed_and_random_effects.pdf)
 
 2 - Practical: Random intercepts regression [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_2_practical_random_intercepts_regression.html) [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Day_4_2_practical_random_intercepts_regression.pdf)
 
