@@ -1,4 +1,4 @@
-# <p style="color:rgb(255,0,0);"> This course will get a complete makeover in Feb 2025 </p>
+# This course will get a complete makeover <br> in Feb 2025
 
 # Introduction to Bayesian statistics
 
