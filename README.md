@@ -1,3 +1,5 @@
+# <p style="color:rgb(255,0,0);"> This course will get a complete makeover in Feb 2025 </p>
+
 # Introduction to Bayesian statistics
 
 4 day course: October 23 - October 26 2023  
