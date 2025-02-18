@@ -26,3 +26,25 @@ Participants learn how to practically conceptualize their research questions int
 | (6) Mixed effects models  | pdf  | pdf html R  |
 | (7) Stan introduction  | pdf  | pdf html R  |
 | (8) Conclusions  | pdf  | pdf html R  |
+
+### Software requirements
+
+- Rstudio: https://posit.co/download/rstudio-desktop/
+- C-toolchain: https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#configuring-c-toolchain 
+- For Windows-users, this involves the installation of RTools, which is not an R-package, but a standalone program: https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html
+- Some R-packages:
+
+```r
+update.packages()
+install.packages("devtools")    # install packages from github
+install.packages("brms")        # our main software package
+install.packages("ggplot2")     # plotting
+install.packages("bayesplot")   # additional plotting tools
+install.packages("sfsmisc")     # mathematical integration through data points
+install.packages("performance") # model evaluation
+install.packages("arm")         # model evaluation
+install.packages("GGally")      # pairs plots
+install.packages("emmeans")     # post-hoc analysis
+install.packages("ecostats")    # some datasets
+devtools::install_github("jfieberg/Data4Ecologists") # more datasets
+```
