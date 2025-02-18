@@ -18,14 +18,14 @@ Participants learn how to practically conceptualize their research questions int
 
 |   | Lecture | Practical |
 | ------------- | ------------- | ------------- |
-| (1) Statistical modeling  | pdf  | pdf html R  |
-| (2) Bayesian principles | pdf  | pdf html R  |
-| (3) Priors and posteriors  | pdf  | pdf html R  |
-| (4) Linear models  | pdf  | pdf html R  |
-| (5) Generalized linear models  | pdf  | pdf html R  |
-| (6) Mixed effects models  | pdf  | pdf html R  |
-| (7) Stan introduction  | pdf  | pdf html R  |
-| (8) Conclusions  | pdf  | pdf html R  |
+| (1) Statistical modeling      | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_1.pdf) | pdf html R  |
+| (2) Bayesian principles       | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_2.pdf) | pdf html R  |
+| (3) Priors and posteriors     | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_3.pdf) | pdf html R  |
+| (4) Linear models             | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_4.pdf) | pdf html R  |
+| (5) Generalized linear models | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_5.pdf) | pdf html R  |
+| (6) Mixed effects models      | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_6.pdf) | pdf html R  |
+| (7) Stan introduction         | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_7.pdf) | pdf html R  |
+| (8) Conclusions               | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_8.pdf) | pdf html R  |
 
 ### Software requirements
 
