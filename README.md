@@ -29,9 +29,9 @@ Participants learn how to practically conceptualize their research questions int
 
 ### Software requirements
 
-- Rstudio: https://posit.co/download/rstudio-desktop/
-- C-toolchain: https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#configuring-c-toolchain 
-- For Windows-users, this involves the installation of RTools, which is not an R-package, but a standalone program: https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html
+- Rstudio: [link](https://posit.co/download/rstudio-desktop/)
+- C-toolchain: [link](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#configuring-c-toolchain),
+- which involves RTools (for Windows): [link](https://cran.r-project.org/bin/windows/Rtools/)
 - Some R-packages:
 
 ```r
