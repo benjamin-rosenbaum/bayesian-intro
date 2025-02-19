@@ -1,5 +1,3 @@
-# This course will get a complete makeover <br> in Feb 2025
-
 # Introduction to Bayesian statistics in R & brms
 
 4 day course: 24-27 February 2025  
@@ -18,14 +16,14 @@ Participants learn how to practically conceptualize their research questions int
 
 |   | Lecture | Practical |
 | ------------- | ------------- | ------------- |
-| (1) Statistical modeling      | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_1.pdf) | pdf html R  |
-| (2) Bayesian principles       | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_2.pdf) | pdf html R  |
-| (3) Priors and posteriors     | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_3.pdf) | pdf html R  |
-| (4) Linear models             | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_4.pdf) | pdf html R  |
-| (5) Generalized linear models | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_5.pdf) | pdf html R  |
-| (6) Mixed effects models      | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_6.pdf) | pdf html R  |
-| (7) Stan introduction         | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_7.pdf) | pdf html R  |
-| (8) Conclusions               | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_8.pdf) | pdf html R  |
+| (1) Statistical modeling      | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_01.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_01.pdf) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_01.html) [R](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_01.R)  |
+| (2) Bayesian principles       | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_02.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_02.pdf) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_02.html) [R](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_02.R)  |
+| (3) Priors and posteriors     | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_03.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_03.pdf) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_03.html) [R](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_03.R)  |
+| (4) Linear models             | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_04.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_04.pdf) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_04.html) [R](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_04.R)  |
+| (5) Generalized linear models | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_05.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_05.pdf) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_05.html) [R](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_05.R)  |
+| (6) Mixed effects models      | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_06.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_06.pdf) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_06.html) [R](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_06.R)  |
+| (7) Stan introduction         | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_07.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_07.pdf) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_07.html) [R](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_07.R)  |
+| (8) Conclusions               | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_08.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_08.pdf) [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_08.html) [R](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_08.R)  |
 
 ### Software requirements
 
