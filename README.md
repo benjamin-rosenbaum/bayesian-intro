@@ -23,7 +23,7 @@ Participants learn how to practically conceptualize their research questions int
 | (5) Generalized linear models | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_05.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_05.pdf) &nbsp; [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_05.html) &nbsp; [Rcode](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_05.R)  |
 | (6) Mixed effects models      | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_06.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_06.pdf) &nbsp; [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_06.html) &nbsp; [Rcode](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_06.R)  |
 | (7) Stan introduction         | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_07.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_07.pdf) &nbsp; [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_07.html) &nbsp; [Rcode](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_07.R)  |
-| (8) Conclusions               | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_08.pdf) | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_08.pdf) &nbsp; [html](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_08.html) &nbsp; [Rcode](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_08.R)  |
+| (8) Conclusions               | [pdf](https://benjamin-rosenbaum.github.io/bayesian-intro/Lecture_08.pdf) | pdf &nbsp; html &nbsp; [Rcode](https://benjamin-rosenbaum.github.io/bayesian-intro/Practical_08.R)  |
 
 ### Software requirements
 
