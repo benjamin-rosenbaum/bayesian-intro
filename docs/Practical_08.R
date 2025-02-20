@@ -15,7 +15,7 @@ setwd("~/Nextcloud/Teaching brms/Practical_08/Gould_2025_EvoEco")
 
 # In a recent study, 2 datasets were given to 174 research teams with the task to
 # answer 2 research question, each. The authors collected results in form of 
-# standarized effect sized and CIs, and performed additional meta-analyses.
+# standarized effect sizes and CIs, and performed additional meta-analyses.
 
 # We here want to "replicate" the study with the 1st dataset "evolutionary ecology".
 # "To what extent is the growth of nestling blue tits (Cyanistes caeruleus) 
@@ -76,25 +76,32 @@ data$day14_measurer = as.factor(data$day14_measurer)
 data$home_or_away = as.factor(data$home_or_away)
 data$chick_sex_molec = as.factor(data$chick_sex_molec)
 
-data.f = data[, c("hatch_nest_CS",
-                "rear_d0_rear_nest_brood_size",
-                "d14_rear_nest_brood_size",
-                "home_or_away",
-                "chick_sex_molec",
-                "rear_nest_trt",
-                "day_14_weight"
-                )]
+# I used some variables only to test fixed effects first. I had to make sure that
+# each observation is complete for model comparison (loo)
+data.f = data[, c("day_14_tarsus_length",
+                  "day_14_weight",
+                  "hatch_nest_CS",
+                  "d0_hatch_nest_brood_size",
+                  "d14_hatch_nest_brood_size",
+                  "rear_nest_CS",
+                  "rear_d0_rear_nest_brood_size",
+                  "d14_rear_nest_brood_size",
+                  "rear_nest_trt",
+                  "home_or_away",
+                  "net_rearing_manipulation",
+                  "chick_sex_molec"
+)]
 # remove NA observations
 data.f = data.f[complete.cases(data.f), ]
 
-hist(data$day_14_weight)
+ggpairs(data.f[, c("hatch_nest_CS",
+                   "d0_hatch_nest_brood_size",
+                   "d14_hatch_nest_brood_size",
+                   "rear_nest_CS",
+                   "rear_d0_rear_nest_brood_size",
+                   "d14_rear_nest_brood_size",
+                   "net_rearing_manipulation",
+                   "day_14_tarsus_length",
+                   "day_14_weight")] )
 
-ggpairs(data[, c("hatch_nest_CS",
-                 "d0_hatch_nest_brood_size",
-                 "d14_hatch_nest_brood_size",
-                 "rear_nest_CS",
-                 "rear_d0_rear_nest_brood_size",
-                 "d14_rear_nest_brood_size",
-                 "net_rearing_manipulation")]
-        )
 
