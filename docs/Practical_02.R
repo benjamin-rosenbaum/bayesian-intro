@@ -10,9 +10,10 @@ library("brms")
 library("ggplot2")
 library("bayesplot") 
 library("loo") 
+library("ggpubr") 
 try(dev.off())
 
-setwd("~/Nextcloud/Teaching brms/Practical_02")
+setwd("~/Nextcloud/Teaching brms 2025 2/Practical_02")
 
 # (1) linear regression --------------------------------------------------------
 
@@ -191,8 +192,23 @@ fit3 = brm(weight ~ age,
 summary(fit3, prior=TRUE)
 plot(fit3)
 
-plot(conditional_effects(fit3), 
-     points=TRUE)
+# We can draw prior & posterior in 1 plot by using mcmc_dens to plot the posterior
+# distribution and adding the prior distribution (which we specified with normal(5,1)
+# earlier). We also draw the old posterior without a slope-prior for comparison
+
+plot3 = mcmc_dens(fit3, pars=c("b_age"))
+plot3 = plot3 +
+  geom_function(fun=dnorm, args=list(mean=5, sd=1), colour="lightblue", linewidth=1.5) +
+  xlim(0,14) +
+  ggtitle("With prior normal(5,1)")
+
+plot1 = mcmc_dens(fit1, pars=c("b_age"))
+plot1 = plot1 +
+  xlim(0,14) +
+  ggtitle("Without prior")
+
+ggarrange(plot3, plot1)
+
 
 # lin.reg., model analysis -----------------------------------------------------
 
@@ -266,7 +282,7 @@ data = data.frame(total = c(22,22,29,21,25,30,24,23,25,28),
 #     family = binomial(link="identity"),
 #     data = data)
 
-# Check the default prior!
+# Check the default prior, it does not make sense here!
 
 # Choose a meaningful prior for the Intercept parameter, use lb=0, ub=1
 # Fit the model & verify convergence.

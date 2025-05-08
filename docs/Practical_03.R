@@ -31,13 +31,28 @@ plot(globalPlants$lat, log(globalPlants$height))
 
 fit1 = brm(log(height) ~ lat,
            prior = prior(normal(-0.05,0.02), class=b, coef=lat),
-           data=globalPlants )
+           data = globalPlants )
 
 # check  convergence
 
 summary(fit1, prior=TRUE)
 plot(fit1)
 plot(conditional_effects(fit1), points=T)
+
+# plotting prior & posterior for slope. You **can** also change the prior 
+# (smaller or bigger standard deviation) and re-fit the model, to see if that 
+# changes the posterior substantially (sensitivity analysis)
+
+mcmc_dens(fit1, pars=c("b_lat")) +
+  geom_function(fun=dnorm, args=list(-0.05, 0.02), colour="lightblue3", linewidth=1.5) +
+  xlim(-0.1,0)
+  
+# Next, we are looking at prior predictive checks (does the prior make sense for this data?) and 
+# posterior predictive checks (does the model fit the data well?).
+# Usually, you first perform prior predictive checks, then fit the model, and then 
+# perform posterior predictive checks. But didactically it's more intuitive to 
+# show the posterior first.
+
 
 # ++ posterior distribution -------------------------------------------------------
 

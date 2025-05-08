@@ -3232,7 +3232,7 @@ window.Quarto = {
   <li><a href="#example-2-mean-body-size-of-a-mammal-population" id="toc-example-2-mean-body-size-of-a-mammal-population" class="nav-link" data-scroll-target="#example-2-mean-body-size-of-a-mammal-population">Example 2: Mean body size of a mammal population</a></li>
   <li><a href="#example-3-body-size-vs-age" id="toc-example-3-body-size-vs-age" class="nav-link" data-scroll-target="#example-3-body-size-vs-age">Example 3: body size vs age</a></li>
   <li><a href="#example-4-body-size-vs-age-centered" id="toc-example-4-body-size-vs-age-centered" class="nav-link" data-scroll-target="#example-4-body-size-vs-age-centered">Example 4: body size vs age (centered)</a></li>
-  <li><a href="#exercise-5-two-predictors" id="toc-exercise-5-two-predictors" class="nav-link" data-scroll-target="#exercise-5-two-predictors">Exercise 5: two predictors</a></li>
+  <li><a href="#exercise-1-two-predictors" id="toc-exercise-1-two-predictors" class="nav-link" data-scroll-target="#exercise-1-two-predictors">Exercise 1: two predictors</a></li>
   </ul>
 </nav>
 </div>
@@ -3282,20 +3282,21 @@ window.Quarto = {
 <p><strong>Question:</strong> What is the average survival rate?</p>
 <p>Deterministic part:    <span class="math inline">\(\theta\)</span>    (just fitting a mean, or the intercept if you will)<br>
 Stochastic part:          <span class="math inline">\(survived \sim \text{Binomial}(total,\theta)\)</span></p>
-<p>Naively, we could just calculate rate for each habitat and compute their mean. But we can do better. Use the statistical model.</p>
+<p>Naively, we could just calculate rate for each habitat and compute their mean.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>survived<span class="sc">/</span>data<span class="sc">$</span>total</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>survived <span class="sc">/</span> data<span class="sc">$</span>total</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5 0.4 0.4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data<span class="sc">$</span>survived<span class="sc">/</span>data<span class="sc">$</span>total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data<span class="sc">$</span>survived <span class="sc">/</span> data<span class="sc">$</span>total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.4333333</code></pre>
 </div>
 </div>
+<p>But we can do better. Use the statistical model.</p>
 <section id="probability-density-function-pytheta" class="level2">
 <h2 class="anchored" data-anchor-id="probability-density-function-pytheta">Probability density function <span class="math inline">\(p(y|\theta)\)</span></h2>
-<p>If we know the survival rate, we can compute probability for each outcome</p>
+<p>If we know the survival rate, we can compute probability for each possible outcome</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">dbinom</span>(<span class="at">x=</span>x, <span class="at">size=</span><span class="dv">20</span>, <span class="at">prob=</span><span class="fl">0.3</span>)</span>
@@ -3387,7 +3388,7 @@ Stochastic part:          <span class="math inline">\(survived \sim \te
 <pre><code>[1] 1</code></pre>
 </div>
 </div>
-<p>OK, so far we only calculated likelihood of single datapoints. Likelihood function for the whole dataset is the product of these likelihoods.</p>
+<p>OK, so far we only calculated likelihood of single datapoints. The likelihood function for the whole dataset is the product of these likelihoods.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lik <span class="ot">=</span> <span class="fu">dbinom</span>(<span class="at">x=</span>data<span class="sc">$</span>survived[<span class="dv">1</span>], <span class="at">size=</span>data<span class="sc">$</span>total[<span class="dv">1</span>], <span class="at">prob=</span>theta)<span class="sc">*</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dbinom</span>(<span class="at">x=</span>data<span class="sc">$</span>survived[<span class="dv">2</span>], <span class="at">size=</span>data<span class="sc">$</span>total[<span class="dv">2</span>], <span class="at">prob=</span>theta)<span class="sc">*</span></span>
@@ -3457,6 +3458,7 @@ Number of Fisher Scoring iterations: 3</code></pre>
 </div>
 </div>
 <p>Here, we get a mean survival prob of 0.43 with 95%-CI [0.31, 0.55]. CIs are not computed from the full likelihood, but rely on a local approximation.</p>
+<p>We used <code>glm</code> to automatically find the parameter value that maximizes the likelihood. Next, we see how to code the likelihood as a function, which we can use for manual search or iterative optimization.</p>
 </section>
 </section>
 <section id="example-2-mean-body-size-of-a-mammal-population" class="level1">
@@ -3476,11 +3478,11 @@ Number of Fisher Scoring iterations: 3</code></pre>
 <p><strong>Question:</strong> What’s the mean bodysize?</p>
 <p>Deterministic part:    <span class="math inline">\(\mu\)</span>    (just fitting a mean, or the intercept if you will)<br>
 Stochastic part:           <span class="math inline">\(weight \sim \text{Normal}(\mu,\sigma)\)</span></p>
-<p>First with known <span class="math inline">\(\sigma\)</span>. Estimate just 1 parameter <span class="math inline">\(\mu\)</span></p>
+<p>First we assume <span class="math inline">\(\sigma\)</span> is known. Estimate just 1 parameter <span class="math inline">\(\mu\)</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sigma<span class="ot">=</span><span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Probability for given <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span></p>
+<p>Probability distribution of the data for <strong>given parameters</strong> <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">50</span>, <span class="dv">150</span>, <span class="at">length.out=</span><span class="dv">100</span>)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">dnorm</span>(<span class="at">x=</span>x, <span class="at">mean=</span><span class="dv">100</span>, <span class="at">sd=</span>sigma)</span>
@@ -3493,7 +3495,7 @@ Stochastic part:           <span class="math inline">\(weight \sim \tex
 </div>
 </div>
 </div>
-<p>another mean</p>
+<p>or, for another value for the mean <span class="math inline">\(\mu\)</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">dnorm</span>(<span class="at">x=</span>x, <span class="at">mean=</span><span class="dv">110</span>, <span class="at">sd=</span>sigma)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y, <span class="at">type=</span><span class="st">&quot;l&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3505,8 +3507,8 @@ Stochastic part:           <span class="math inline">\(weight \sim \tex
 </div>
 </div>
 </div>
-<p>likelihood = probability density of data for a parameter</p>
-<p>likelihood function for 1 datapoint</p>
+<p>Likelihood, in reverse, is the probability density of <strong>given data</strong> for a parameter</p>
+<p>E.g., likelihood function for 1 datapoint</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">60</span>, <span class="dv">130</span>, <span class="at">length.out=</span><span class="dv">100</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>lik <span class="ot">=</span> <span class="fu">dnorm</span>(data<span class="sc">$</span>weight[<span class="dv">1</span>], <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)</span>
@@ -3519,7 +3521,7 @@ Stochastic part:           <span class="math inline">\(weight \sim \tex
 </div>
 </div>
 </div>
-<p>likelihood function for all datapoints</p>
+<p>Likelihood function for all datapoints is the product of all datapoints’ likelihood functions</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lik <span class="ot">=</span> <span class="fu">dnorm</span>(data<span class="sc">$</span>weight[<span class="dv">1</span>], <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)<span class="sc">*</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dnorm</span>(data<span class="sc">$</span>weight[<span class="dv">2</span>], <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)<span class="sc">*</span></span>
@@ -3538,14 +3540,14 @@ Stochastic part:           <span class="math inline">\(weight \sim \tex
 </div>
 </div>
 <p>In our statistical model, there is a second parameter <span class="math inline">\(\sigma\)</span>. Likelihood is a function of both parameters <span class="math inline">\(L(\mu,\sigma)\)</span></p>
-<p>Write likelihood as a function but use negative <strong>log</strong>-likelihood (NLL). This makes things easier since <span class="math inline">\(L\)</span> can be VERY small and numerically unstable</p>
+<p>Write likelihood as a function but use negative <strong>log</strong>-likelihood (NLL). This makes things easier since <span class="math inline">\(L\)</span> can be VERY small and numerically unstable. (Minimizing the NLL is the same as maximizing <span class="math inline">\(L\)</span>.)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">=</span> <span class="cf">function</span>(parameters, weights){</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  lik <span class="ot">=</span> <span class="fu">dnorm</span>(weights, <span class="at">mean=</span>parameters[<span class="dv">1</span>], <span class="at">sd=</span>parameters[<span class="dv">2</span>], <span class="at">log=</span><span class="cn">TRUE</span>) </span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="sc">-</span><span class="fu">sum</span>(lik)) </span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Try to minimize the NLL by guessing</p>
+<p>Try guessing values to minimize the NLL</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">likelihood</span>(<span class="fu">c</span>(<span class="dv">110</span>,<span class="dv">10</span>), data<span class="sc">$</span>weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3600,7 +3602,7 @@ Stochastic part:           <span class="math inline">\(weight \sim \tex
 <pre><code>[1] 24.21522</code></pre>
 </div>
 </div>
-<p>We can do better, with an iterative algorithm to search for optimum <span class="math inline">\((\mu,\sigma)\)</span> with initial guess (100,10) using <code>optim()</code></p>
+<p>We can do better, with an iterative algorithm to search for optimum <span class="math inline">\((\mu,\sigma)\)</span> with initial guess (100,10) using <code>optim()</code>. It is a mathematical convention to find minima instead of maxima, therefore <code>optim</code> minimizes the NLL.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>ml <span class="ot">=</span> <span class="fu">optim</span>(<span class="at">fn =</span> likelihood, </span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">par =</span> <span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">10</span>), </span>
@@ -3624,7 +3626,7 @@ $message
 NULL</code></pre>
 </div>
 </div>
-<p>lm-solution to compare</p>
+<p>lm-solution for comparison</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">=</span> <span class="fu">lm</span>(weight <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>data)</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3646,7 +3648,7 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 Residual standard error: 8.261 on 6 degrees of freedom</code></pre>
 </div>
 </div>
-<p>visualize 2-dimensional likelihood and plot ML solution</p>
+<p>Visualization of 2-dimensional likelihood and plot ML solution</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>mu.plot <span class="ot">=</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">80</span>, <span class="at">to=</span><span class="dv">140</span>, <span class="at">length.out=</span><span class="dv">200</span>)</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>sigma.plot <span class="ot">=</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">5</span>, <span class="at">to=</span><span class="dv">15</span>, <span class="at">length.out=</span><span class="dv">200</span>)</span>
@@ -3658,8 +3660,8 @@ Residual standard error: 8.261 on 6 degrees of freedom</code></pre>
 <span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>lik.plot <span class="ot">=</span> <span class="fu">matrix</span>(test<span class="sc">$</span>lik, <span class="at">nrow=</span><span class="fu">length</span>(mu.plot), <span class="at">ncol=</span><span class="fu">length</span>(sigma.plot))</span>
 <span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(mu.plot, sigma.plot, <span class="fu">exp</span>(<span class="sc">-</span>lik.plot),</span>
-<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">&quot;mu&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;sigma&quot;</span>)<span class="co"># , col = hcl.colors(10, &quot;terrain&quot;))</span></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(mu.plot, sigma.plot, <span class="fu">exp</span>(<span class="sc">-</span>lik.plot), <span class="co"># exp(-NLL)=likelihood, since NLL=-log(likelihood)</span></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">&quot;mu&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;sigma&quot;</span>)</span>
 <span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(ml<span class="sc">$</span>par[<span class="dv">1</span>], ml<span class="sc">$</span>par[<span class="dv">2</span>], <span class="at">col=</span><span class="st">&quot;white&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -3724,8 +3726,8 @@ F-statistic: 33.77 on 1 and 5 DF,  p-value: 0.002129</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>likelihood<span class="ot">=</span><span class="cf">function</span>(parameters, weights, ages){</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  lik <span class="ot">=</span> <span class="fu">dnorm</span>(weights, </span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">mean=</span>parameters[<span class="dv">1</span>] <span class="sc">+</span> parameters[<span class="dv">2</span>]<span class="sc">*</span>ages, </span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd=</span><span class="fu">rep</span>(parameters[<span class="dv">3</span>],<span class="fu">length</span>(weights)), </span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">mean=</span>parameters[<span class="dv">1</span>] <span class="sc">+</span> parameters[<span class="dv">2</span>]<span class="sc">*</span>ages, <span class="co"># regression line a+b*age</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd=</span><span class="fu">rep</span>(parameters[<span class="dv">3</span>],<span class="fu">length</span>(weights)),   <span class="co"># identical sigma for all</span></span>
 <span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">log=</span><span class="cn">TRUE</span>) </span>
 <span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="sc">-</span><span class="fu">sum</span>(lik)) <span class="co"># negative log likelihood NLL</span></span>
 <span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3807,8 +3809,8 @@ NULL</code></pre>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  test<span class="sc">$</span>lik[i] <span class="ot">=</span> <span class="fu">likelihood</span>(<span class="fu">c</span>(test<span class="sc">$</span>int[i], test<span class="sc">$</span>slope[i], <span class="fl">5.0</span>), data<span class="sc">$</span>weight, data<span class="sc">$</span>age)</span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>lik.plot <span class="ot">=</span> <span class="fu">matrix</span>(test<span class="sc">$</span>lik, <span class="at">nrow=</span><span class="fu">length</span>(int.plot), <span class="at">ncol=</span><span class="fu">length</span>(slope.plot))</span>
-<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(int.plot, slope.plot, <span class="fu">exp</span>(<span class="sc">-</span>lik.plot),</span>
-<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Slope&quot;</span>)<span class="co"># , col = hcl.colors(10, &quot;terrain&quot;))</span></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(int.plot, slope.plot, <span class="fu">exp</span>(<span class="sc">-</span>lik.plot), <span class="co"># exp(-NLL)=likelihood, since NLL=-log(likelihood)</span></span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Slope&quot;</span>)</span>
 <span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(ml<span class="sc">$</span>par[<span class="dv">1</span>], ml<span class="sc">$</span>par[<span class="dv">2</span>], <span class="at">col=</span><span class="st">&quot;white&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -3861,8 +3863,8 @@ F-statistic: 33.77 on 1 and 5 DF,  p-value: 0.002129</code></pre>
 <span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>likelihood<span class="ot">=</span><span class="cf">function</span>(parameters, weights, ages){</span>
 <span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>  lik <span class="ot">=</span> <span class="fu">dnorm</span>(weights, </span>
-<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">mean=</span>parameters[<span class="dv">1</span>] <span class="sc">+</span> parameters[<span class="dv">2</span>]<span class="sc">*</span>ages, </span>
-<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd=</span><span class="fu">rep</span>(parameters[<span class="dv">3</span>],<span class="fu">length</span>(weights)), </span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">mean=</span>parameters[<span class="dv">1</span>] <span class="sc">+</span> parameters[<span class="dv">2</span>]<span class="sc">*</span>ages, <span class="co"># regression line a+b*age</span></span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd=</span><span class="fu">rep</span>(parameters[<span class="dv">3</span>],<span class="fu">length</span>(weights)),   <span class="co"># identical sigma for all</span></span>
 <span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">log=</span><span class="cn">TRUE</span>) </span>
 <span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="sc">-</span><span class="fu">sum</span>(lik)) </span>
 <span id="cb92-10"><a href="#cb92-10" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -3927,8 +3929,8 @@ NULL</code></pre>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>lik.plot <span class="ot">=</span> <span class="fu">matrix</span>(test<span class="sc">$</span>lik, <span class="at">nrow=</span><span class="fu">length</span>(int.plot), <span class="at">ncol=</span><span class="fu">length</span>(slope.plot))</span>
 <span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(int.plot, slope.plot, <span class="fu">exp</span>(<span class="sc">-</span>lik.plot),</span>
-<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Slope&quot;</span>)<span class="co"># , col = hcl.colors(10, &quot;terrain&quot;))</span></span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(int.plot, slope.plot, <span class="fu">exp</span>(<span class="sc">-</span>lik.plot), <span class="co"># exp(-NLL)=likelihood, since NLL=-log(likelihood)</span></span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">&quot;Intercept&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Slope&quot;</span>)</span>
 <span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(ml<span class="sc">$</span>par[<span class="dv">1</span>], ml<span class="sc">$</span>par[<span class="dv">2</span>], <span class="at">col=</span><span class="st">&quot;white&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -3940,9 +3942,12 @@ NULL</code></pre>
 </div>
 <p>By using a centered predictor, the correlation between intercept &amp; slope is resolved.</p>
 </section>
-<section id="exercise-5-two-predictors" class="level1">
-<h1>Exercise 5: two predictors</h1>
-<p>Now we have more data and a second predictor for avg annual temperature. Write a model that includes both predictors for LM and ML. Test different initial guesses for the optim function and see if they all converge to the same result.</p>
+<section id="exercise-1-two-predictors" class="level1">
+<h1>Exercise 1: two predictors</h1>
+<p>Now we have more data and a second predictor for avg annual temperature.</p>
+<p>Deterministic part:    <span class="math inline">\(\mu=a+b\cdot age + c\cdot temperature\)</span><br>
+Stochastic part:           <span class="math inline">\(weight \sim \text{Normal}(\mu,\sigma)\)</span></p>
+<p>Write a model that includes both predictors for LM and ML. Test different initial guesses for the optim function and see if they all converge to the same result.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">weight =</span> <span class="fu">c</span>(<span class="dv">65</span>,<span class="dv">80</span>,<span class="dv">129</span>,<span class="dv">41</span>,<span class="dv">77</span>,<span class="dv">133</span>,<span class="dv">75</span>,<span class="dv">75</span>,<span class="dv">87</span>,<span class="dv">109</span>,<span class="dv">136</span>,<span class="dv">134</span>,<span class="dv">91</span>,<span class="dv">49</span>,<span class="dv">127</span>,<span class="dv">120</span>,<span class="dv">108</span>,<span class="dv">126</span>,<span class="dv">81</span>,<span class="dv">112</span>),</span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">age    =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">7</span>,<span class="dv">14</span>,<span class="dv">6</span>,<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">9</span>,<span class="dv">7</span>,<span class="dv">15</span>,<span class="dv">13</span>,<span class="dv">13</span>,<span class="dv">13</span>,<span class="dv">7</span>,<span class="dv">12</span>),</span>

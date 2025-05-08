@@ -23,8 +23,8 @@ data = data.frame(total = c(18, 25, 20),
 # Naively, we could just calculate rate for each habitat and compute their mean.
 # But we can do better. Use the statistical model.
 
-data$survived/data$total
-mean(data$survived/data$total)
+data$survived / data$total
+mean(data$survived / data$total)
 
 # Probability density function p(y|theta)
 
@@ -94,7 +94,7 @@ summary(model1)
 
 # What is happening? GLM estimates a negative survival probability?
 # No, the binomial family uses a log-link as default. We can override the 
-# default by specifying an identity link function (parameter is estimted on its
+# default by specifying an identity link function (parameter is estimated on its
 # original scale). More on that in Lesson 5.
 
 model1 = glm( cbind(survived, total-survived) ~ 1, data=data, 
