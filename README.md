@@ -4,6 +4,10 @@
 German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig  
 benjamin.rosenbaum@idiv.de  
 
+### Recording
+
+[Youtube playlist 2025](https://youtube.com/playlist?list=PLYQyVaCmxRdvokiVjw0DnnJUNow7wokvr&si=q7tCckKP2LXMcw6c)
+
 ### Outline
 
 The course offers a straightforward and practical approach to applied statistics using Bayesian inference for ecologists. It starts with a general introduction to statistical modeling and the concepts of Bayesian statistics (likelihood, priors, posterior distribution, MCMC sampling). We will move step-by-step from classical ANOVA and linear regression to generalized, nonlinear, or mixed-effects models, with a strong conceptual focus on the building blocks of statistical models.
