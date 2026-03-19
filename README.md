@@ -1,6 +1,6 @@
 # Introduction to Bayesian statistics in R & brms
 
-4 day course: 24-27 February 2025  
+4 day course in March 2026  
 German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig  
 benjamin.rosenbaum@idiv.de  
 
