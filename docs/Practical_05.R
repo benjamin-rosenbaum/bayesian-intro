@@ -2,8 +2,15 @@
 # by Benjamin Rosenbaum
 
 # We learn how to use some classic GLMs, and a distributional model. We focus on 
-# prior specifications and appropriate posterior predictive checks. Sometimes we 
-# have to apply ggplot tricks for good conditional effects plots.
+# prior specifications and appropriate posterior predictive checks, including 
+# the DHARMa package. Sometimes we have to apply ggplot tricks for good conditional 
+# effects plots. 
+
+# General disclaimer: Never use LOOIC / WAIC / AIC / BIC / DIC for comparing models 
+# for continuous responses (Normal, Lognormal, Gamma, Beta, ...) to models for 
+# discrete responses (Binomial, Poisson, Negative Binomial, ...)
+# Continuous distributions are based on probability density functions, while 
+# discrete distributions have probability mass functions, which you can't compare.
 
 rm(list=ls())
 library("brms")
@@ -12,13 +19,17 @@ library("arm")
 library("emmeans")
 library("performance")
 library("Data4Ecologists")
+library("DHARMa.helpers")
 
-setwd("~/Nextcloud/Teaching brms/Practical_05")
+setwd("~/Nextcloud/Teaching brms 2025 2/Practical_05")
 
-# poisson ----------------------------------------------------------------------
+# Count variables ----------------------------------------------------------------------
 
-# We start with a simple comparison of 2 group means (freq. t-test), 
-# but the response are counts (number of slugs found per plot of 2 types)
+## Poisson
+
+# We start with a simple comparison of 2 group means (frequentists would use a 
+# t-test), but the response are counts (number of slugs found per plot, 2 field 
+# types, from Data4Ecologists package).
 
 data(slugs)
 ggplot(slugs, aes(field, slugs)) + geom_jitter(alpha=0.5, width=0.1, height=0.05)
@@ -54,26 +65,65 @@ plot(conditional_effects(fit.slugs),
      point_args=list(alpha=0.3, width=0.1, height=0.05)
 )
 
-# --> mean difference of 0.98 slugs, 95%-CI [0.40,1.56]
+dh_check_brms(fit.slugs) # DHARMa
 
-# check cassical lm for this data
+# DHARMa checks don't look so good. Poisson too strict because it assumes 
+# mean = variance. 
 
-fit.slugs.lm = brm(slugs ~ field,
+## Negative Binomial = overdispersed Poisson
+
+# An additional precision parameter called `shape` controls dispersion: 
+# For large values, we get the Poisson, for small values the Negative Binomial 
+# is an overdispersed Poisson.
+
+# It is classically specified by `family=negbinomial()`, but since the identity 
+# link is not a standard choice we have to "convince" brms by using 
+# `family=brmsfamily("negbinomial, )"`.
+
+default_prior(slugs ~ field,
+              family = brmsfamily("negbinomial", link="identity"), 
+              data = slugs)
+
+fit.slugs.nb = brm(slugs ~ field,
+                   family = brmsfamily("negbinomial", link="identity"),
                    prior = 
-                     prior(normal(0,2), class=b) +
+                     prior(normal(0, 2), class=b) +
                      prior(student_t(3, 1, 2.5), class=Intercept, lb=0),
                    data = slugs)
 
-summary(fit.slugs.lm)
+# Check convergence
 
-fixef(fit.slugs.lm) |> round(3)
+summary(fit.slugs.nb, prior=TRUE)
+plot(fit.slugs.nb)
+
+# shape is small, so the data is really overdispersed. 
+
+# Posterior predictions
+
+plot(conditional_effects(fit.slugs.nb), 
+     points=T, 
+     point_args=list(alpha=0.3, width=0.1, height=0.05)
+)
+dh_check_brms(fit.slugs.nb) # DHARMa
+
+# The distributional assumptions are OK now. 
+
+LOO(fit.slugs, fit.slugs.nb)
+
+# Model comparison also tells us that the Negative Binomial is more appropriate.
+
 fixef(fit.slugs) |> round(3)
+fixef(fit.slugs.nb) |> round(3)
 
-# Intercept CIs substantially different for lm! 95% CI even covers zero!
-# --> Poisson is the correct model, especially when data close or equal to zeros
+# The effect size (difference in group-means) has a larger standard deviation 
+# in the Negative Binomial. In different words: we would have been overly confident 
+# about the effect size in the Poisson model.
+
+hypothesis(fit.slugs, "fieldRookery>0")
+hypothesis(fit.slugs.nb, "fieldRookery>0")
 
 
-# binomial ----------------------------------------------------------------------
+# Binomial ----------------------------------------------------------------------
 
 # data from Quian (2016) Environmental and Ecological Statistics with R
 
@@ -82,7 +132,7 @@ fixef(fit.slugs) |> round(3)
 # N = number of inoculated mice
 # Y = number of infected mice
 # Dose = number of parasite oocysts used for inoculation
-# Which dose is needed to infect 75% of mice?
+# Which minimal dose is needed to infect at least 75% of mice?
 
 # deterministic part: logit(p) = a + b*Dose
 # stochastic part:    Y[i] ~ Binomial(N[i],p[i])
@@ -101,7 +151,7 @@ default_prior(Y | trials(N) ~ scale(Dose),
               family = binomial(link=logit),
               data = df.sub )
 
-# add a vaguely informative prior on (linear scale) slope. effect is expected to be pos
+# add a weakly informative prior on (linear scale) slope. effect is expected to be pos
 
 fit.crypto = brm(Y | trials(N) ~ scale(Dose),
                  family = binomial(link=logit),
@@ -133,12 +183,14 @@ pp_check(fit.crypto, ndraws=100)
 pp_check(fit.crypto, type="scatter_avg")
 
 # not very pretty, but we didn't measure any other predictors to improve
+# could try beta_binomial instead of binomial
 
 fitted = fitted(fit.crypto)
 residuals = residuals(fit.crypto)
 binnedplot(fitted, residuals)
+dh_check_brms(fit.crypto)
 
-# What parasite dose is needed to get 75% of mice infected?
+# What parasite dose is needed to get at least 75% of mice infected?
 
 p1[[1]] + geom_hline(yintercept=0.75, linetype=2, col="red")
 
@@ -165,110 +217,15 @@ fitted.229 = fitted(fit.crypto,
 hist(fitted.229)
 abline(v=0.75, col="red", lwd=2)
 
-# overdispersion ---------------------------------------------------------------
+
+# Distributional model ---------------------------------------------------------
 
 # daily growth of young chicken (from datasets package). 
-# only early exponential growth phase here
+# only early exponential growth phase here, first 2 weeks
 # (otherwise nonlinear "von Bertalanffy growth function")
 
-data("ChickWeight")
-
-ggplot(ChickWeight, aes(Time, weight)) + 
-  geom_jitter(alpha=0.5, width=0.1, height=0.05)
-
-ggplot(ChickWeight, aes(Time, log(weight))) + 
-  geom_jitter(alpha=0.5, width=0.1, height=0.05)
-
-ChickWeight = subset(ChickWeight, Time<15)
-
-# response weight given as integers. could use poisson here.
-
-# start with poisson regression. Var(mu)=mu
-# deterministic part: log(mu) = a + b*time
-# stochastic part:    weight ~ Poisson(mu)
-
-default_prior(weight ~ Time,
-              family = poisson(link=log),
-              data = ChickWeight)
-
-fit.growth.1 = brm(weight ~ Time,
-                   family = poisson(link=log),
-                   prior = prior(normal(0,1), class=b, lb=0),
-                   data = ChickWeight)
-
-summary(fit.growth.1)
-plot(fit.growth.1)
-
-# posterior predictions (for deterministic part mu)
-
-plot(conditional_effects(fit.growth.1), 
-     points=T, 
-     point_args=list(alpha=0.3))
-
-# posterior predictions (predicted data, includes stochastic part)
-
-plot(conditional_effects(fit.growth.1, method="posterior_predict"), 
-     points=T, 
-     point_args=list(alpha=0.3))
-# --> prediction intervals don't represent variance of data well
-
-pp_check(fit.growth.1, ndraws=100)
-pp_check(fit.growth.1, type="scatter_avg")
-
-
-# next: negative binomial  Var(mu)=mu+(mu^2)/phi
-# deterministic part: log(mu) = a + b*time
-# stochastic part:    weight ~ neg.binom.(mu, phi) 
-# (phi is the shape parameter)
-
-default_prior(weight ~ Time,
-              family = negbinomial(link=log),
-              data = ChickWeight)
-
-fit.growth.2 = brm(weight ~ Time,
-                   family = negbinomial(link=log),
-                   prior = prior(normal(0,1), class=b, lb=0),
-                   data = ChickWeight)
-
-summary(fit.growth.2)
-plot(fit.growth.2)
-
-# posterior predictions (for deterministic part mu)
-
-plot(conditional_effects(fit.growth.2), 
-     points=T, 
-     point_args=list(alpha=0.4))
-
-# posterior predictions (predicted data, includes stochastic part)
-
-plot(conditional_effects(fit.growth.2, method="posterior_predict"), 
-     points=T, 
-     point_args=list(alpha=0.4))
-# --> not perfect, but much better than before
-
-pp_check(fit.growth.2, type="scatter_avg")
-pp_check(fit.growth.2, ndraws=100)
-
-LOO(fit.growth.1, fit.growth.2)
-# --> negative binomial model represents data much better
-
-# what is the daily growth rate?
-# log(mu) = a+b*time
-# mu = exp(a+b*time) = exp(a) * exp(b)^time
-# DON'T just use point estimate for b.mean and compute exp(b.mean) !! 
-
-post = as_draws_df(fit.growth.2)
-post$rate = exp(post$b_Time)
-hist(post$rate)
-mean(post$rate)
-quantile(post$rate, prob=c(0.05, 0.95))
-# avg daily growth rate of 0.096 (=9.6%), 
-# 90%-CI=[0.092,0.101] 
-
-# distributional model ---------------------------------------------------------
-
-# same data, but response now treated as continuous. 
-
+# Question: What is the daily growth rate?
+  
 data("ChickWeight")
 
 ggplot(ChickWeight, aes(Time, weight)) + 
@@ -284,29 +241,30 @@ ChickWeight = subset(ChickWeight, Time<15)
 # deterministic part: mu = a + b*time
 # stochastic part:    log.weight ~ normal(mu, sigma) 
 
-fit.growth.3 = brm(log(weight) ~ Time,
+fit.growth.1 = brm(log(weight) ~ Time,
                    prior = prior(normal(0,1), class=b),
                    data = ChickWeight)
 
-summary(fit.growth.3)
-plot(fit.growth.3)
+summary(fit.growth.1)
+plot(fit.growth.1)
 
 # posterior predictions (for deterministic part mu)
 
-plot(conditional_effects(fit.growth.3), 
+plot(conditional_effects(fit.growth.1), 
      points=T, 
      point_args=list(alpha=0.4))
 
 # posterior predictions (predicted data, includes stochastic part)
 
-plot(conditional_effects(fit.growth.3, method="posterior_predict"), 
+plot(conditional_effects(fit.growth.1, method="posterior_predict"), 
      points=T, 
      point_args=list(alpha=0.4))
 # --> prediction intervals don't represent variance of data well
 
-pp_check(fit.growth.3, type="scatter_avg")
-pp_check(fit.growth.3, ndraws=100)
-check_model(fit.growth.3, check=c("linearity","homogeneity","qq","normality"))
+pp_check(fit.growth.1, type="scatter_avg")
+pp_check(fit.growth.1, ndraws=100)
+check_model(fit.growth.1, check=c("linearity","homogeneity","qq","normality"))
+dh_check_brms(fit.growth.1) # DHARMa
 # --> linear model assumptions not satisfied
 
 # next: distributional model, 
@@ -320,37 +278,61 @@ default_prior(bf(log(weight) ~ Time,
                  sigma ~ Time),
               data = ChickWeight)
 
-fit.growth.4 = brm(bf(log(weight) ~ Time,
+fit.growth.2 = brm(bf(log(weight) ~ Time,
                       sigma ~ Time),
                    prior = prior(normal(0,1), class=b, coef=Time) +
                            prior(normal(0,1), class=b, dpar=sigma),
                    data = ChickWeight)
 
-summary(fit.growth.4, prior=T)
-plot(fit.growth.4)
+summary(fit.growth.2, prior=T)
+plot(fit.growth.2)
 
 # posterior predictions (for deterministic part mu)
 
-plot(conditional_effects(fit.growth.4), 
+plot(conditional_effects(fit.growth.2), 
      points=T, 
      point_args=list(alpha=0.4))
 
 # posterior predictions (predicted data, includes stochastic part)
 
-plot(conditional_effects(fit.growth.4, method="posterior_predict"), 
+plot(conditional_effects(fit.growth.2, method="posterior_predict"), 
      points=T, 
      point_args=list(alpha=0.4))
 # --> looks much better
 
-pp_check(fit.growth.4, type="scatter_avg")
-pp_check(fit.growth.4, ndraws=100)
+pp_check(fit.growth.2, type="scatter_avg")
+pp_check(fit.growth.2, ndraws=100)
 # We don't use check_model() here, because it's not a linear model anymore.
 
-LOO(fit.growth.3, fit.growth.4)
+dh_check_brms(fit.growth.2) 
+# --> DHARMa checks OK-ish
+
+LOO(fit.growth.1, fit.growth.2)
 # --> distributional model represents data much better
 
-# ATTN: do NOT use LOO to compare discrete distr. (model 1+2) with continuous (3+4)
+# Question: What's the average daily growth rate?
+# log.weight=a+b*time --> weight=exp(a)*exp(b)^time
+# exp(b) is daily growth rate. use posterior distribution of exp(b) to compute mean
 
+post = as_draws_df(fit.growth.2)
+post$rate = exp(post$b_Time)
+hist(post$rate)
+
+mean(post$rate)
+quantile(post$rate, prob=c(0.05, 0.95))
+
+# log link on sigma kept it positive, but cause exponential increase with time
+# alternative model without sigma log-link --> sigma increases linearly with time
+# identity link, but sigma's intercept and slope positive
+
+# fit.growth.3 = brm(bf(log(weight) ~ Time,
+#                       sigma ~ Time),
+#                    family = brmsfamily("gaussian", link_sigma = "identity"),
+#                    prior = 
+#                      prior(normal(0,1), class=b, coef=Time) +
+#                      prior(normal(0,1), class=Intercept, dpar=sigma, lb=0) +
+#                      prior(normal(0,1), class=b, dpar=sigma, lb=0),
+#                    data = ChickWeight)
 
 # nonlinear model --------------------------------------------------------------
 
