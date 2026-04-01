@@ -49,4 +49,5 @@ install.packages("GGally")      # pairs plots
 install.packages("emmeans")     # post-hoc analysis
 install.packages("ecostats")    # some datasets
 devtools::install_github("jfieberg/Data4Ecologists") # more datasets
+devtools::install_github("Pakillo/DHARMa.helpers") # DHARMa residuals for brms
 ```
